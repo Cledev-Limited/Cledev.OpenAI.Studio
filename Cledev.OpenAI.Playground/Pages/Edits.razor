@@ -76,24 +76,26 @@
         </div>
     </div>
 
+    <SubmitButton
+        Text="Create Edit"
+        LoadingText="Creating Edit..."
+        IsLoading="IsLoading">
+    </SubmitButton>
+    
+    @*TODO: Move Options to a side panel*@
     @if (IsLoading)
     {
-        <button class="btn btn-primary text-nowrap" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Creating Edit...
-        </button>
         <button type="button" class="btn btn-outline-secondary" disabled>Options</button>
     }
     else
     {
-        <button type="submit" class="btn btn-primary">Create Edit</button>
         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#optionsModal">Options</button>
     }
 </EditForm>
 
 @if (Response is not null && Error is null)
 {
-    <div class="row my-4">
+    <div class="row mt-4">
         <div class="col-6">
             <h4>Response</h4>
 

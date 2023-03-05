@@ -31,17 +31,19 @@
 
     <ImageOptions Request="Request" Sizes="Sizes" Formats="Formats"></ImageOptions>
 
+    <SubmitButton
+        Text="Create Image Variation"
+        LoadingText="Creating Image Variation..."
+        IsLoading="IsLoading">
+    </SubmitButton>
+    
+    @*TODO: Move Options to a side panel*@
     @if (IsLoading)
     {
-        <button class="btn btn-primary text-nowrap" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Creating Image Variation...
-        </button>
         <button type="button" class="btn btn-outline-secondary" disabled>Options</button>
     }
     else
     {
-        <button type="submit" class="btn btn-primary">Create Image Variation</button>
         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#optionsModal">Options</button>
     }
 </EditForm>

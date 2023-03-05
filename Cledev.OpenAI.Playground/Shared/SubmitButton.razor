@@ -1,0 +1,22 @@
+﻿@if (IsLoading)
+{
+    <button class="btn btn-primary text-nowrap me-2" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        @LoadingText
+    </button>
+}
+else
+{
+    <button type="submit" class="btn btn-primary me-2">@Text</button>
+}
+
+@code {
+    [Parameter] 
+    public bool IsLoading { get; set; }
+
+    [Parameter] 
+    public string? Text { get; set; }
+
+    [Parameter] 
+    public string? LoadingText { get; set; }
+}
