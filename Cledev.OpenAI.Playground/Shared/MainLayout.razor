@@ -1,19 +1,69 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>Cledev.OpenAI Playground</PageTitle>
+<PageTitle>Cledev OpenAI Playground</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            &nbsp;
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom mb-3">
+        <div class="container">
+            <a class="navbar-brand" href="/">Cledev OpenAI Playground</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-lg-inline-flex flex-lg-row-reverse">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        Home
+                    </NavLink>
+                    <NavLink class="nav-link" href="/audio" Match="NavLinkMatch.All">
+                        Audio
+                    </NavLink>
+                    <NavLink class="nav-link" href="/chat" Match="NavLinkMatch.All">
+                        Chat
+                    </NavLink>
+                    <NavLink class="nav-link" href="/completions" Match="NavLinkMatch.All">
+                        Completions
+                    </NavLink>
+                    <NavLink class="nav-link" href="/edits" Match="NavLinkMatch.All">
+                        Edits
+                    </NavLink>
+                    <NavLink class="nav-link" href="/embeddings" Match="NavLinkMatch.All">
+                        Embeddings
+                    </NavLink>
+                    <NavLink class="nav-link" href="/files" Match="NavLinkMatch.All">
+                        Files
+                    </NavLink>
+                    <NavLink class="nav-link" href="/fine-tunes" Match="NavLinkMatch.All">
+                        FineTunes
+                    </NavLink>
+                    <NavLink class="nav-link" href="/create-image" Match="NavLinkMatch.Prefix">
+                        Images
+                    </NavLink>
+                    <NavLink class="nav-link" href="/models" Match="NavLinkMatch.All">
+                        Models
+                    </NavLink>
+                    <NavLink class="nav-link" href="/moderations" Match="NavLinkMatch.All">
+                        Moderations
+                    </NavLink>
+                </ul>
+            </div>
         </div>
+    </nav>
+</header>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<main role="main">
+    <div class="container" style="min-height: 400px;">
+        @Body
+    </div>
+</main>
+
+<footer class="border-top text-muted small">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 my-4">
+                <div class="mb-2">
+                    <span>&copy; @DateTime.UtcNow.Year <a href="https://www.linkedin.com/in/lucabriguglia/" class="text-decoration-none" title="Luca Briguglia">Luca Briguglia</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
