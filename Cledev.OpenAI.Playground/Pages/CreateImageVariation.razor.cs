@@ -1,6 +1,6 @@
 ﻿using Cledev.OpenAI.V1.Contracts;
 using Cledev.OpenAI.V1.Contracts.Images;
-using Cledev.OpenAI.V1.Models;
+using Cledev.OpenAI.V1.Enums;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Cledev.OpenAI.Playground.Pages;
@@ -18,7 +18,7 @@ public class CreateImageVariationPage : ImagePageBase
             Image = new byte[1],
             ImageName = "Something",
             Size = ImageSize.Size512x512.ToStringSize(),
-            ResponseFormat = ImageFormat.B64Json.ToStringFormat(),
+            ResponseFormat = ImageResponseFormat.B64Json.ToStringFormat(),
             N = 1
         };
     }

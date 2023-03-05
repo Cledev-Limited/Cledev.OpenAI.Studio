@@ -1,5 +1,5 @@
 ﻿using Cledev.OpenAI.V1.Contracts.Images;
-using Cledev.OpenAI.V1.Models;
+using Cledev.OpenAI.V1.Enums;
 
 namespace Cledev.OpenAI.Playground.Pages;
 
@@ -15,7 +15,7 @@ public class CreateImagePage : ImagePageBase
         {
             Prompt = string.Empty,
             Size = ImageSize.Size512x512.ToStringSize(),
-            ResponseFormat = ImageFormat.B64Json.ToStringFormat(),
+            ResponseFormat = ImageResponseFormat.B64Json.ToStringFormat(),
             N = 1
         };
     }

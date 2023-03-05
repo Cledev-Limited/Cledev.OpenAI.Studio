@@ -1,5 +1,5 @@
 ﻿using Cledev.OpenAI.V1.Contracts.Images;
-using Cledev.OpenAI.V1.Models;
+using Cledev.OpenAI.V1.Enums;
 
 namespace Cledev.OpenAI.Playground.Pages;
 
@@ -15,7 +15,7 @@ public abstract class ImagePageBase : PageComponentBase
     protected override void OnInitialized()
     {
         Sizes = Enum.GetValues(typeof(ImageSize)).Cast<ImageSize>().Select(x => x.ToStringSize()).ToList();
-        Formats = Enum.GetValues(typeof(ImageFormat)).Cast<ImageFormat>().Select(x => x.ToStringFormat()).ToList();
+        Formats = Enum.GetValues(typeof(ImageResponseFormat)).Cast<ImageResponseFormat>().Select(x => x.ToStringFormat()).ToList();
     }
 
     protected static string Base64ToImage(string base64String)

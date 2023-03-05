@@ -1,5 +1,5 @@
 ﻿using Cledev.OpenAI.V1.Contracts.Completions;
-using Cledev.OpenAI.V1.Models;
+using Cledev.OpenAI.V1.Enums;
 
 namespace Cledev.OpenAI.Playground.Pages;
 
