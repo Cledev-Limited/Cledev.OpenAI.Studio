@@ -6,7 +6,7 @@ Blazor Server Playground for OpenAI using [Cledev.OpenAI](https://github.com/luc
 
 ## Screenshots
 
-### Create Completions
+### Create Completion
 <img src="https://user-images.githubusercontent.com/8679253/222959712-77df45ff-15c2-4caf-9ab8-cdfa3d21fe94.png" width="600" />
 
 ### Create Image
