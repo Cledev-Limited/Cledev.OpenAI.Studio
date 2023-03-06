@@ -10,7 +10,8 @@
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="mb-3">
-        <InputText id="Input" placeholder="Input" @bind-Value="Request.Input" class="form-control" />
+        <label for="Input" class="form-label">Input</label>
+        <InputText id="Input" @bind-Value="Request.Input" class="form-control" />
     </div>
 
     <div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
