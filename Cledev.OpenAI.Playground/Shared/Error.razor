@@ -8,7 +8,16 @@
                 </div>
                 <div class="card-body">
                     <span class="fw-bold">Type</span>: @Model.Type<br />
-                    <span class="fw-bold">Code</span>: @Model.Code<br />
+                    <span class="fw-bold">Code</span>:
+                    @if (Model.Code is not null)
+                    {
+                        @Model.Code
+                    }
+                    else
+                    {
+                        <literal>&lt;null&gt;</literal>
+                    }
+                    <br />
                     <span class="fw-bold">Message</span>: @Model.Message<br />
                     <span class="fw-bold">Param</span>:
                     @if (Model.Param is not null)
