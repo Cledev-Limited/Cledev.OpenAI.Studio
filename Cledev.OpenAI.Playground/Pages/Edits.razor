@@ -9,12 +9,34 @@
 <p class="mb-4">Given a prompt and an instruction, the model will return an edited version of the prompt.</p>
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
+    
+    
     <div class="mb-3">
-        <InputText id="Input" placeholder="Prompt (Optional)" @bind-Value="Request.Input" class="form-control" />
+        <label for="Input" class="form-label">Input</label>
+        <span class="fst-italic">(Optional)</span>
+        <InputText id="Input" @bind-Value="Request.Input" class="form-control" />
     </div>
     <div class="mb-3">
-        <InputText id="Instruction" placeholder="Instruction (Required)" @bind-Value="Request.Instruction" class="form-control" />
+        <label for="Instruction" class="form-label">Instruction</label>
+        <span class="fst-italic">(Required)</span>
+        <InputText id="Instruction" @bind-Value="Request.Instruction" class="form-control" />
+    </div>    
+
+    @*<div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
     </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>*@
+
+    @*<div class="mb-3">
+        <InputText id="Input" placeholder="Prompt (Optional)" @bind-Value="Request.Input" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <InputText id="Instruction" placeholder="Instruction (Required)" @bind-Value="Request.Instruction" class="form-control"/>
+    </div>*@
 
     <div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -44,7 +66,7 @@
                             Temperature
                         </label>
                         <div class="col-sm-7">
-                            <InputNumber id="Temperature" @bind-Value="Request.Temperature" @bind-Value:format="F2" class="form-control" />
+                            <InputNumber id="Temperature" @bind-Value="Request.Temperature" @bind-Value:format="F2" class="form-control"/>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -53,7 +75,7 @@
                             TopP
                         </label>
                         <div class="col-sm-7">
-                            <InputNumber id="TopP" @bind-Value="Request.TopP" @bind-Value:format="F2" class="form-control" />
+                            <InputNumber id="TopP" @bind-Value="Request.TopP" @bind-Value:format="F2" class="form-control"/>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -62,7 +84,7 @@
                             N
                         </label>
                         <div class="col-sm-7">
-                            <InputNumber id="N" @bind-Value="Request.N" class="form-control" />
+                            <InputNumber id="N" @bind-Value="Request.N" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -78,7 +100,7 @@
         LoadingText="Creating Edit..."
         IsLoading="IsLoading">
     </SubmitButton>
-    
+
     @*TODO: Move Options to a side panel*@
     @if (IsLoading)
     {
