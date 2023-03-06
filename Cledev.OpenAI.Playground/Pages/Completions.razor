@@ -10,8 +10,8 @@
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="mb-3">
-        <label for="Prompt" class="form-label">Prompt</label>
-        <InputText id="Prompt" @bind-Value="Request.Prompt" class="form-control" />
+        <FormLabel InputId="Prompt" Tooltip="@PromptToolTip">Prompt</FormLabel>
+        <InputText id="Prompt" @bind-Value="Request.Prompt" class="form-control"/>
     </div>
 
     <div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">

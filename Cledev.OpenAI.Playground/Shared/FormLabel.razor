@@ -1,0 +1,17 @@
+﻿@inherits ComponentBase
+
+<label for="@InputId" class="form-label">
+    <i class="fa-regular fa-circle-question" href="#" data-bs-toggle="tooltip" data-bs-placement="right" title="@Tooltip"></i>
+    @ChildContent
+</label>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? InputId { get; set; }
+
+    [Parameter]
+    public string? Tooltip { get; set; }
+}
