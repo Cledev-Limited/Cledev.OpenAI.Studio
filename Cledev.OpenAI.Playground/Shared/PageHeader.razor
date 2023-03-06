@@ -1,0 +1,14 @@
+﻿@inherits ComponentBase
+
+<h2 class="pb-3 mb-4 border-bottom">
+    <i class="@Icon"></i>
+    @ChildContent
+</h2>
+
+@code {
+    [Parameter] 
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] 
+    public string? Icon { get; set; }
+}
