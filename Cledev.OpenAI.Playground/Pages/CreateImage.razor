@@ -22,7 +22,8 @@
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="mb-3">
-        <InputText id="Prompt" placeholder="Prompt (Required)" @bind-Value="Request.Prompt" class="form-control" />
+        <label for="Prompt" class="form-label">Prompt</label>
+        <InputText id="Prompt" @bind-Value="Request.Prompt" class="form-control" />
     </div>
 
     <ImageOptions Request="Request" Sizes="Sizes" Formats="Formats"></ImageOptions>
