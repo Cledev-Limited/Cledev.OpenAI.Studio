@@ -1,6 +1,6 @@
 ﻿using Cledev.OpenAI.V1.Contracts;
 using Cledev.OpenAI.V1.Contracts.Images;
-using Cledev.OpenAI.V1.Enums;
+using Cledev.OpenAI.V1.Helpers;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Cledev.OpenAI.Playground.Pages;
