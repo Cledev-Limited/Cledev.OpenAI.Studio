@@ -1,5 +1,6 @@
 ﻿@page "/edits"
 
+@using Cledev.OpenAI.V1.Helpers
 @inherits EditsPage
 
 <PageTitle>Edits</PageTitle>
@@ -107,7 +108,16 @@
                         Choice @(index + 1)
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">@choice.Text</div>
+                        <div class="mb-3">
+                            @if (Request.Model == EditsModel.CodeDavinciEditV1.ToStringModel())
+                            {
+                                <pre>@choice.Text</pre>
+                            }
+                            else
+                            {
+                                @choice.Text
+                            }
+                        </div>
                         <span class="fw-bold">Index</span>: @choice.Index<br />
                     </div>
                 </div>
