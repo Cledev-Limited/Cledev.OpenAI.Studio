@@ -1,6 +1,6 @@
 ﻿@inherits ComponentBase
 
-<label for="@InputId" class="form-label">
+<label for="@InputId" class="@CssClass">
     <i class="fa-regular fa-circle-question" href="#" data-bs-toggle="tooltip" data-bs-placement="right" title="@Tooltip"></i>
     @ChildContent
 </label>
@@ -13,5 +13,10 @@
     public string? InputId { get; set; }
 
     [Parameter]
+    public bool InColumn { get; set; }
+
+    [Parameter]
     public string? Tooltip { get; set; }
+
+    private string CssClass => InColumn ? "col-sm-5 col-form-label" : "form-label";
 }
