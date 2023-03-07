@@ -11,28 +11,25 @@
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="row" style="min-height: 300px;">
         <div class="col-md-3 border-end pe-4 d-none d-md-block">
-            <div class="row mb-3">
-                <FormLabel InputId="Model" Tooltip="@Tooltips.Model">Model</FormLabel>
-                <div class="col-sm">
-                    <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
-                        @foreach (var item in ModerationModels)
-                        {
-                            <option value="@item">@item</option>
-                        }
-                    </InputSelect>
-                </div>
-            </div>
+            <ModerationsOptions Request="Request" ModerationModels="ModerationModels"></ModerationsOptions>
         </div>
         <div class="col-md-9 col-sm-12 ps-md-4">
             <div class="mb-3">
                 <FormLabel InputId="Input" Tooltip="@Tooltips.Input">Input</FormLabel>
                 <InputText id="Input" @bind-Value="Request.Input" class="form-control"/>
             </div>
-
-            <SubmitButton Text="Create Moderation"
-                          LoadingText="Creating Moderation..."
-                          IsLoading="IsLoading">
-            </SubmitButton>
+            
+            <div class="row">
+                <div class="col-auto">
+                    <SubmitButton Text="Create Moderation"
+                                  LoadingText="Creating Moderation..."
+                                  IsLoading="IsLoading">
+                    </SubmitButton>
+                </div>
+                <div class="col-auto p-0 d-block d-sm-block d-md-none">
+                    <OptionsButton IsLoading="IsLoading"></OptionsButton>
+                </div>
+            </div>
 
             @if (Response is not null && Error is null)
             {
@@ -85,6 +82,23 @@
             }
 
             <Error Model="Error"></Error>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="optionsModalLabel">Options</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ModerationsOptions Request="Request" ModerationModels="ModerationModels"></ModerationsOptions>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </EditForm>
