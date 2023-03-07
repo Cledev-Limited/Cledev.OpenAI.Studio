@@ -9,8 +9,7 @@
 <p class="mb-4">List and describe the various models available in the API. You can refer to the <a href="https://platform.openai.com/docs/models" title="Models" target="_blank">Models</a> documentation to understand what models are available and the differences between them.</p>
 
 <div class="mb-3">
-    <label for="ModelId" class="form-label">Model Id</label>
-    <span class="fst-italic">(Optional)</span>
+    <FormLabel InputId="ModelId" Tooltip="@Tooltips.ModelId" ExtraInfo="Optional">Model Id</FormLabel>
     <input type="text" id="ModelId" @oninput="OnValueChanged" class="form-control" />
 </div>
 

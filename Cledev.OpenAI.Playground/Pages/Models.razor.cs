@@ -43,4 +43,9 @@ public class ModelsPage : PageComponentBase
         IsLoading = false;
         SearchCompleted = true;
     }
+
+    protected static class Tooltips
+    {
+        public static string ModelId = "Optional. The ID of the model to use for this request.";
+    }
 }
