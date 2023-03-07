@@ -1,13 +1,13 @@
 ﻿@if (IsLoading)
 {
-    <button class="btn btn-primary text-nowrap me-2" type="button" disabled>
+    <button class="btn btn-primary text-nowrap" type="button" disabled>
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         @LoadingText
     </button>
 }
 else
 {
-    <button type="submit" class="btn btn-primary text-nowrap me-2">@Text</button>
+    <button type="submit" class="btn btn-primary text-nowrap">@Text</button>
 }
 
 @code {
