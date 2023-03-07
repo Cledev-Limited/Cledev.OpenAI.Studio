@@ -9,187 +9,167 @@
 <p class="mb-4">Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.</p>
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
-    <div class="mb-3">
-        <FormLabel InputId="Prompt" Tooltip="@Tooltips.Prompt">Prompt</FormLabel>
-        <InputText id="Prompt" @bind-Value="Request.Prompt" class="form-control" />
-    </div>
-
-    <div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="optionsModalLabel">Options</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="row">
+        <div class="col-3 border-end pe-4">
+            <div class="row mb-3">
+                <FormLabel InputId="Model" Tooltip="@Tooltips.Model">Model</FormLabel>
+                <div class="col-sm">
+                    <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
+                        @foreach (var item in CompletionModels)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </InputSelect>
                 </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <FormLabel InputId="Model" InColumn="true" Tooltip="@Tooltips.Model">Model</FormLabel>
-                        <div class="col-sm-7">
-                            <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
-                                @foreach (var item in CompletionModels)
-                                {
-                                    <option value="@item">@item</option>
-                                }
-                            </InputSelect>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="Suffix" InColumn="true" Tooltip="@Tooltips.Suffix">Suffix</FormLabel>
-                        <div class="col-sm-7">
-                            <InputText id="Suffix" @bind-Value="Request.Suffix" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="MaxTokens" InColumn="true" Tooltip="@Tooltips.MaxTokens">Max Tokens</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="MaxTokens" @bind-Value="Request.MaxTokens" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="Temperature" InColumn="true" Tooltip="@Tooltips.Temperature">Temperature</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="Temperature" @bind-Value="Request.Temperature" @bind-Value:format="F2" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="TopP" InColumn="true" Tooltip="@Tooltips.TopP">TopP</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="TopP" @bind-Value="Request.TopP" @bind-Value:format="F2" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="N" InColumn="true" Tooltip="@Tooltips.N">N</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="N" @bind-Value="Request.N" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3 align-items-center">
-                        <FormLabel InputId="Stream" InColumn="true" Tooltip="@Tooltips.Stream">Stream</FormLabel>
-                        <div class="col-sm-7">
-                            <InputCheckbox id="Stream" @bind-Value="Request.Stream" class="form-check-input" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="LogProbs" InColumn="true" Tooltip="@Tooltips.LogProbs">Log Probs</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="LogProbs" @bind-Value="Request.LogProbs" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3 align-items-center">
-                        <FormLabel InputId="Echo" InColumn="true" Tooltip="@Tooltips.Echo">Echo</FormLabel>
-                        <div class="col-sm-7">
-                            <InputCheckbox id="Echo" @bind-Value="Request.Echo" class="form-check-input" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="Stop" InColumn="true" Tooltip="@Tooltips.Stop">Stop</FormLabel>
-                        <div class="col-sm-7">
-                            <InputText id="Stop" @bind-Value="Request.Stop" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="PresencePenalty" InColumn="true" Tooltip="@Tooltips.PresencePenalty">Presence Penalty</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="PresencePenalty" @bind-Value="Request.PresencePenalty" @bind-Value:format="F2" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="FrequencyPenalty" InColumn="true" Tooltip="@Tooltips.FrequencyPenalty">Frequency Penalty</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="FrequencyPenalty" @bind-Value="Request.FrequencyPenalty" @bind-Value:format="F2" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="BestOf" InColumn="true" Tooltip="@Tooltips.BestOf">Best Of</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="BestOf" @bind-Value="Request.BestOf" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="LogitBias" InColumn="true" Tooltip="@Tooltips.LogitBias">Logit Bias</FormLabel>
-                        <div class="col-sm-7">
-                            <InputTextArea id="LogitBias" @bind-Value="Request.LogitBias" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <FormLabel InputId="User" InColumn="true" Tooltip="@Tooltips.User">User</FormLabel>
-                        <div class="col-sm-7">
-                            <InputText id="User" @bind-Value="Request.User" class="form-control" />
-                        </div>
-                    </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="Suffix" Tooltip="@Tooltips.Suffix">Suffix</FormLabel>
+                <div class="col-sm">
+                    <InputText id="Suffix" @bind-Value="Request.Suffix" class="form-control" />
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="MaxTokens" Tooltip="@Tooltips.MaxTokens">Max Tokens</FormLabel>
+                <div class="col-sm">
+                    <InputNumber id="MaxTokens" @bind-Value="Request.MaxTokens" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="Temperature" Tooltip="@Tooltips.Temperature">Temperature</FormLabel>
+                <div class="col-sm">
+                    <InputNumber id="Temperature" @bind-Value="Request.Temperature" @bind-Value:format="F2" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="TopP" Tooltip="@Tooltips.TopP">TopP</FormLabel>
+                <div class="col-sm">
+                    <InputNumber id="TopP" @bind-Value="Request.TopP" @bind-Value:format="F2" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="N" Tooltip="@Tooltips.N">N</FormLabel>
+                <div class="col-sm">
+                    <InputNumber id="N" @bind-Value="Request.N" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <FormLabel InputId="Stream" Tooltip="@Tooltips.Stream">Stream</FormLabel>
+                <div class="col-sm">
+                    <InputCheckbox id="Stream" @bind-Value="Request.Stream" class="form-check-input" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="LogProbs" Tooltip="@Tooltips.LogProbs">Log Probs</FormLabel>
+                <div class="col-sm">
+                    <InputNumber id="LogProbs" @bind-Value="Request.LogProbs" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3 align-items-center">
+                <FormLabel InputId="Echo" Tooltip="@Tooltips.Echo">Echo</FormLabel>
+                <div class="col-sm">
+                    <InputCheckbox id="Echo" @bind-Value="Request.Echo" class="form-check-input" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="Stop" Tooltip="@Tooltips.Stop">Stop</FormLabel>
+                <div class="col-sm">
+                    <InputText id="Stop" @bind-Value="Request.Stop" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="PresencePenalty" Tooltip="@Tooltips.PresencePenalty">Presence Penalty</FormLabel>
+                <div class="col-sm">
+                    <InputNumber id="PresencePenalty" @bind-Value="Request.PresencePenalty" @bind-Value:format="F2" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="FrequencyPenalty" Tooltip="@Tooltips.FrequencyPenalty">Frequency Penalty</FormLabel>
+                <div class="col-sm">
+                    <InputNumber id="FrequencyPenalty" @bind-Value="Request.FrequencyPenalty" @bind-Value:format="F2" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="BestOf" Tooltip="@Tooltips.BestOf">Best Of</FormLabel>
+                <div class="col-sm">
+                    <InputNumber id="BestOf" @bind-Value="Request.BestOf" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="LogitBias" Tooltip="@Tooltips.LogitBias">Logit Bias</FormLabel>
+                <div class="col-sm">
+                    <InputTextArea id="LogitBias" @bind-Value="Request.LogitBias" class="form-control" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <FormLabel InputId="User" Tooltip="@Tooltips.User">User</FormLabel>
+                <div class="col-sm">
+                    <InputText id="User" @bind-Value="Request.User" class="form-control" />
                 </div>
             </div>
         </div>
+        <div class="col-9 ps-4">
+            <div class="mb-3">
+                <FormLabel InputId="Prompt" Tooltip="@Tooltips.Prompt">Prompt</FormLabel>
+                <InputText id="Prompt" @bind-Value="Request.Prompt" class="form-control"/>
+            </div>
+
+            <SubmitButton Text="Create Completion"
+                          LoadingText="Creating Completion..."
+                          IsLoading="IsLoading">
+            </SubmitButton>
+
+            @if (Response is not null && Error is null)
+            {
+                <div class="row mt-4">
+                    <div class="col">
+                        <h4>Response</h4>
+
+                        @for (var index = 0; index < Response.Choices.Count; index++)
+                        {
+                            var choice = Response.Choices[index];
+                            <div class="card d-flex mt-3">
+                                <div class="card-header">
+                                    Choice @(index + 1)
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">@choice.Text</div>
+                                    <span class="fw-bold">Index</span>: @choice.Index<br/>
+                                    <span class="fw-bold">Finish Reason</span>: @choice.FinishReason<br/>
+                                    <span class="fw-bold">Log Probs</span>: @choice.LogProbs
+                                </div>
+                            </div>
+                        }
+
+                        <div class="card d-flex mt-3">
+                            <div class="card-header">
+                                Info
+                            </div>
+                            <div class="card-body">
+                                <span class="fw-bold">Id</span>: @Response.Id<br/>
+                                <span class="fw-bold">Object</span>: @Response.Object<br/>
+                                <span class="fw-bold">Created</span>: @Response.Created<br/>
+                                <span class="fw-bold">Model</span>: @Response.Model
+                            </div>
+                        </div>
+
+                        @if (Response.Usage is not null)
+                        {
+                            <div class="card d-flex mt-3">
+                                <div class="card-header">
+                                    Usage
+                                </div>
+                                <div class="card-body">
+                                    <span class="fw-bold">Prompt Tokens</span>: @Response.Usage.PromptTokens<br/>
+                                    <span class="fw-bold">Completion Tokens</span>: @Response.Usage.CompletionTokens<br/>
+                                    <span class="fw-bold">Total Tokens</span>: @Response.Usage.TotalTokens
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <Error Model="Error"></Error>
+        </div>
     </div>
-
-    <SubmitButton Text="Create Completion"
-                  LoadingText="Creating Completion..."
-                  IsLoading="IsLoading">
-    </SubmitButton>
-
-    @*TODO: Move Options to a side panel*@
-    @if (IsLoading)
-    {
-        <button type="button" class="btn btn-outline-secondary" disabled>Options</button>
-    }
-    else
-    {
-        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#optionsModal">Options</button>
-    }
 </EditForm>
-
-@if (Response is not null && Error is null)
-{
-    <div class="row mt-4">
-        <div class="col-6">
-            <h4>Response</h4>
-
-            @for (var index = 0; index < Response.Choices.Count; index++)
-            {
-                var choice = Response.Choices[index];
-                <div class="card d-flex mt-3">
-                    <div class="card-header">
-                        Choice @(index + 1)
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">@choice.Text</div>
-                        <span class="fw-bold">Index</span>: @choice.Index<br />
-                        <span class="fw-bold">Finish Reason</span>: @choice.FinishReason<br />
-                        <span class="fw-bold">Log Probs</span>: @choice.LogProbs
-                    </div>
-                </div>
-            }
-
-            <div class="card d-flex mt-3">
-                <div class="card-header">
-                    Info
-                </div>
-                <div class="card-body">
-                    <span class="fw-bold">Id</span>: @Response.Id<br />
-                    <span class="fw-bold">Object</span>: @Response.Object<br />
-                    <span class="fw-bold">Created</span>: @Response.Created<br />
-                    <span class="fw-bold">Model</span>: @Response.Model
-                </div>
-            </div>
-
-            @if (Response.Usage is not null)
-            {
-                <div class="card d-flex mt-3">
-                    <div class="card-header">
-                        Usage
-                    </div>
-                    <div class="card-body">
-                        <span class="fw-bold">Prompt Tokens</span>: @Response.Usage.PromptTokens<br />
-                        <span class="fw-bold">Completion Tokens</span>: @Response.Usage.CompletionTokens<br />
-                        <span class="fw-bold">Total Tokens</span>: @Response.Usage.TotalTokens
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-}
-
-<Error Model="Error"></Error>
