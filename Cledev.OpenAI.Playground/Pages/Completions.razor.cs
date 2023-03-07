@@ -14,7 +14,10 @@ public class CompletionsPage : PageComponentBase
     {
         Request = new CreateCompletionRequest
         {
-            Model = CompletionsModel.TextDavinciV3.ToStringModel()
+            Model = CompletionsModel.TextDavinciV3.ToStringModel(),
+            N = 1,
+            MaxTokens = 100,
+            Stream = true
         };
 
         CompletionModels = Enum.GetValues(typeof(CompletionsModel)).Cast<CompletionsModel>().Select(x => x.ToStringModel()).ToList();
