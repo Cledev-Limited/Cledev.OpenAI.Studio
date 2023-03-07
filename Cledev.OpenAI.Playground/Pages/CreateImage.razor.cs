@@ -49,4 +49,9 @@ public class CreateImagePage : ImagePageBase
 
         IsLoading = false;
     }
+
+    protected static class Tooltips
+    {
+        public static string Prompt = "Required. A text description of the desired image(s). The maximum length is 1000 characters.";
+    }
 }

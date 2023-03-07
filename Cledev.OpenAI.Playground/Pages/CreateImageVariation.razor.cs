@@ -77,4 +77,9 @@ public class CreateImageVariationPage : ImagePageBase
 
         IsLoading = false;
     }
+
+    protected static class Tooltips
+    {
+        public static string Image = "Required. The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.";
+    }
 }

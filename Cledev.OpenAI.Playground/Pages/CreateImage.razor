@@ -22,11 +22,11 @@
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="mb-3">
-        <label for="Prompt" class="form-label">Prompt</label>
+        <FormLabel InputId="Prompt" Tooltip="@Tooltips.Prompt">Prompt</FormLabel>
         <InputText id="Prompt" @bind-Value="Request.Prompt" class="form-control" />
     </div>
 
-    <ImageOptions Request="Request" Sizes="Sizes" Formats="Formats"></ImageOptions>
+    <CreateImageOptions Request="Request" Sizes="Sizes" Formats="Formats"></CreateImageOptions>
 
     <SubmitButton Text="Create Image"
                   LoadingText="Creating Image..."

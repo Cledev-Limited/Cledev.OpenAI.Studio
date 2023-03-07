@@ -22,11 +22,11 @@
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="mb-3">
-        <label for="Image" class="form-label">Select the image</label>
+        <FormLabel InputId="Image" Tooltip="@Tooltips.Image">Select the image</FormLabel>
         <InputFile id="Image" OnChange="OnInputFileForImageChange" class="form-control"></InputFile>
     </div>
 
-    <ImageOptions Request="Request" Sizes="Sizes" Formats="Formats"></ImageOptions>
+    <CreateImageOptions Request="Request" Sizes="Sizes" Formats="Formats"></CreateImageOptions>
 
     <SubmitButton
         Text="Create Image Variation"

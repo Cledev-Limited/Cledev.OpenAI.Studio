@@ -11,19 +11,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
-                        <label for="N" class="col-sm-5 col-form-label">
-                            <i class="fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="right" title="Optional (Defaults to 1). The number of images to generate. Must be between 1 and 10."></i>
-                            N
-                        </label>
+                        <FormLabel InputId="N" InColumn="true" Tooltip="@Tooltips.N">N</FormLabel>
                         <div class="col-sm-7">
                             <InputNumber id="N" @bind-Value="Request.N" class="form-control" />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="Size" class="col-sm-5 col-form-label">
-                            <i class="fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="right" title="Optional (Defaults to 1024x1024). The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024."></i>
-                            Size
-                        </label>
+                        <FormLabel InputId="Size" InColumn="true" Tooltip="@Tooltips.Size">Size</FormLabel>
                         <div class="col-sm-7">
                             <InputSelect id="Size" @bind-Value="Request.Size" class="form-select">
                                 @foreach (var item in Sizes)
@@ -34,10 +28,7 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="ResponseFormat" class="col-sm-5 col-form-label">
-                            <i class="fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="right" title="Optional (Defaults to url). The format in which the generated images are returned. Must be one of url or b64_json."></i>
-                            Response Format
-                        </label>
+                        <FormLabel InputId="ResponseFormat" InColumn="true" Tooltip="@Tooltips.ResponseFormat">Response Format</FormLabel>
                         <div class="col-sm-7">
                             <InputSelect id="ResponseFormat" @bind-Value="Request.ResponseFormat" class="form-select">
                                 @foreach (var item in Formats)
@@ -48,10 +39,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label for="User" class="col-sm-5 col-form-label">
-                            <i class="fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="right" title="Optional. A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."></i>
-                            User
-                        </label>
+                        <FormLabel InputId="User" InColumn="true" Tooltip="@Tooltips.User">User</FormLabel>
                         <div class="col-sm-7">
                             <InputText id="User" @bind-Value="Request.User" class="form-control" r />
                         </div>
@@ -69,4 +57,12 @@
     [Parameter] public CreateImageRequestBase? Request { get; set; }
     [Parameter] public IList<string> Sizes { get; set; } = new List<string>();
     [Parameter] public IList<string> Formats { get; set; } = new List<string>();
+
+    protected static class Tooltips
+    {
+        public static string N = "Optional (Defaults to 1). The number of images to generate. Must be between 1 and 10.";
+        public static string Size = "Optional (Defaults to 1024x1024). The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.";
+        public static string ResponseFormat = "Optional (Defaults to url). The format in which the generated images are returned. Must be one of url or b64_json.";
+        public static string User = "Optional. A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.";
+    }
 }
