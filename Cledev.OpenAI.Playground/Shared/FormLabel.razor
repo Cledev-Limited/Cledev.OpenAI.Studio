@@ -5,6 +5,11 @@
     @ChildContent
 </label>
 
+@if (ExtraInfo is not null)
+{
+    <span class="fst-italic m-lg-1">(@ExtraInfo)</span>
+}
+
 @code {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -17,6 +22,9 @@
 
     [Parameter]
     public string? Tooltip { get; set; }
+
+    [Parameter]
+    public string? ExtraInfo { get; set; }
 
     private string CssClass => InColumn ? "col-sm-5 col-form-label" : "form-label";
 }
