@@ -10,7 +10,7 @@
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="mb-3">
-        <label for="Input" class="form-label">Input</label>
+        <FormLabel InputId="Input" Tooltip="@Tooltips.Input">Input</FormLabel>
         <InputText id="Input" @bind-Value="Request.Input" class="form-control" />
     </div>
 
@@ -23,10 +23,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
-                        <label for="Model" class="col-sm-5 col-form-label">
-                            <i class="fa-regular fa-circle-question" href="#" data-bs-toggle="tooltip" data-bs-placement="right" title="Required. ID of the model to use. You can use the List models API to see all of your available models, or see our Model overview for descriptions of them."></i>
-                            Model
-                        </label>
+                        <FormLabel InputId="Model" InColumn="true" Tooltip="@Tooltips.Model">Model</FormLabel>
                         <div class="col-sm-7">
                             <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
                                 @foreach (var item in EmbeddingModels)
@@ -37,10 +34,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label for="User" class="col-sm-5 col-form-label">
-                            <i class="fa-regular fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="right" title="Optional. A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse."></i>
-                            User
-                        </label>
+                        <FormLabel InputId="User" InColumn="true" Tooltip="@Tooltips.User">User</FormLabel>
                         <div class="col-sm-7">
                             <InputText id="User" @bind-Value="Request.User" class="form-control" />
                         </div>
