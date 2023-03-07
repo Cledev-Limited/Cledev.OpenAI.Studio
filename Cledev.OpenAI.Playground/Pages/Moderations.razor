@@ -10,8 +10,7 @@
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="mb-3">
-        <label for="Input" class="form-label">Input</label>
-        <span class="fst-italic">(Optional)</span>
+        <FormLabel InputId="Input" Tooltip="@Tooltips.Input">Input</FormLabel>
         <InputText id="Input" @bind-Value="Request.Input" class="form-control" />
     </div>
 
@@ -24,10 +23,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <label for="Model" class="col-sm-5 col-form-label">
-                            <i class="fa-regular fa-circle-question" href="#" data-bs-toggle="tooltip" data-bs-placement="right" title="Required. ID of the model to use. You can use the text-davinci-edit-001 or code-davinci-edit-001 model with this endpoint."></i>
-                            Model
-                        </label>
+                        <FormLabel InputId="Model" InColumn="true" Tooltip="@Tooltips.Model">Model</FormLabel>
                         <div class="col-sm-7">
                             <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
                                 @foreach (var item in ModerationModels)
