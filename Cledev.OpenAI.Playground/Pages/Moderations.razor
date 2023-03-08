@@ -11,7 +11,7 @@
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="row" style="min-height: 300px;">
         <div class="col-md-3 border-end pe-4 d-none d-md-block">
-            <ModerationsOptions Request="Request" ModerationModels="ModerationModels"></ModerationsOptions>
+            <ModerationsOptions Request="Request" ModerationModels="ModerationModels" InColumn="false"></ModerationsOptions>
         </div>
         <div class="col-md-9 col-sm-12 ps-md-4">
             <div class="mb-3">
@@ -93,7 +93,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <ModerationsOptions Request="Request" ModerationModels="ModerationModels"></ModerationsOptions>
+                    <ModerationsOptions Request="Request" ModerationModels="ModerationModels" InColumn="true"></ModerationsOptions>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
