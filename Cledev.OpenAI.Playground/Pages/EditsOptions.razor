@@ -1,0 +1,48 @@
+﻿@using Cledev.OpenAI.V1.Contracts.Edits
+
+@if (Request is not null)
+{
+    <div class="row mb-3">
+        <FormLabel InputId="Model" InColumn="@InColumn" Tooltip="@Tooltips.Model">Model</FormLabel>
+        <div class="col-sm">
+            <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
+                @foreach (var item in EditModels)
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <FormLabel InputId="Temperature" InColumn="@InColumn" Tooltip="@Tooltips.Temperature">Temperature</FormLabel>
+        <div class="col-sm">
+            <InputNumber id="Temperature" @bind-Value="Request.Temperature" @bind-Value:format="F2" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <FormLabel InputId="TopP" InColumn="@InColumn" Tooltip="@Tooltips.TopP">TopP</FormLabel>
+        <div class="col-sm">
+            <InputNumber id="TopP" @bind-Value="Request.TopP" @bind-Value:format="F2" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <FormLabel InputId="N" InColumn="@InColumn" Tooltip="@Tooltips.N">N</FormLabel>
+        <div class="col-sm">
+            <InputNumber id="N" @bind-Value="Request.N" class="form-control" />
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public CreateEditRequest? Request { get; set; }
+    [Parameter] public IList<string> EditModels { get; set; } = new List<string>();
+    [Parameter] public bool InColumn { get; set; }
+
+    protected static class Tooltips
+    {
+        public static string Model = "Required. ID of the model to use. You can use the text-davinci-edit-001 or code-davinci-edit-001 model with this endpoint.";
+        public static string Temperature = "Optional (Defaults to 1). What sampling temperature to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer. We generally recommend altering this or top_p but not both.";
+        public static string TopP = "Optional (Defaults to 1). An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or temperature but not both.";
+        public static string N = "Optional (Defaults to 1). How many edits to generate for the input and instruction.";
+    }
+}
