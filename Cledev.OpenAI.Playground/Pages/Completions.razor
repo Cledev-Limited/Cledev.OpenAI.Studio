@@ -11,101 +11,7 @@
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
     <div class="row">
         <div class="col-md-3 border-end pe-4 d-none d-md-block">
-            <div class="row mb-3">
-                <FormLabel InputId="Model" Tooltip="@Tooltips.Model">Model</FormLabel>
-                <div class="col-sm">
-                    <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
-                        @foreach (var item in CompletionModels)
-                        {
-                            <option value="@item">@item</option>
-                        }
-                    </InputSelect>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="Suffix" Tooltip="@Tooltips.Suffix">Suffix</FormLabel>
-                <div class="col-sm">
-                    <InputText id="Suffix" @bind-Value="Request.Suffix" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="MaxTokens" Tooltip="@Tooltips.MaxTokens">Max Tokens</FormLabel>
-                <div class="col-sm">
-                    <InputNumber id="MaxTokens" @bind-Value="Request.MaxTokens" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="Temperature" Tooltip="@Tooltips.Temperature">Temperature</FormLabel>
-                <div class="col-sm">
-                    <InputNumber id="Temperature" @bind-Value="Request.Temperature" @bind-Value:format="F2" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="TopP" Tooltip="@Tooltips.TopP">TopP</FormLabel>
-                <div class="col-sm">
-                    <InputNumber id="TopP" @bind-Value="Request.TopP" @bind-Value:format="F2" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="N" Tooltip="@Tooltips.N">N</FormLabel>
-                <div class="col-sm">
-                    <InputNumber id="N" @bind-Value="Request.N" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3 align-items-center">
-                <FormLabel InputId="Stream" Tooltip="@Tooltips.Stream">Stream</FormLabel>
-                <div class="col-sm">
-                    <InputCheckbox id="Stream" @bind-Value="Request.Stream" class="form-check-input" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="LogProbs" Tooltip="@Tooltips.LogProbs">Log Probs</FormLabel>
-                <div class="col-sm">
-                    <InputNumber id="LogProbs" @bind-Value="Request.LogProbs" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3 align-items-center">
-                <FormLabel InputId="Echo" Tooltip="@Tooltips.Echo">Echo</FormLabel>
-                <div class="col-sm">
-                    <InputCheckbox id="Echo" @bind-Value="Request.Echo" class="form-check-input" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="Stop" Tooltip="@Tooltips.Stop">Stop</FormLabel>
-                <div class="col-sm">
-                    <InputText id="Stop" @bind-Value="Request.Stop" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="PresencePenalty" Tooltip="@Tooltips.PresencePenalty">Presence Penalty</FormLabel>
-                <div class="col-sm">
-                    <InputNumber id="PresencePenalty" @bind-Value="Request.PresencePenalty" @bind-Value:format="F2" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="FrequencyPenalty" Tooltip="@Tooltips.FrequencyPenalty">Frequency Penalty</FormLabel>
-                <div class="col-sm">
-                    <InputNumber id="FrequencyPenalty" @bind-Value="Request.FrequencyPenalty" @bind-Value:format="F2" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="BestOf" Tooltip="@Tooltips.BestOf">Best Of</FormLabel>
-                <div class="col-sm">
-                    <InputNumber id="BestOf" @bind-Value="Request.BestOf" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="LogitBias" Tooltip="@Tooltips.LogitBias">Logit Bias</FormLabel>
-                <div class="col-sm">
-                    <InputTextArea id="LogitBias" @bind-Value="Request.LogitBias" class="form-control" />
-                </div>
-            </div>
-            <div class="row mb-3">
-                <FormLabel InputId="User" Tooltip="@Tooltips.User">User</FormLabel>
-                <div class="col-sm">
-                    <InputText id="User" @bind-Value="Request.User" class="form-control" />
-                </div>
-            </div>
+            <CompletionsOptions Request="Request" CompletionModels="CompletionModels" InColumn="false"></CompletionsOptions>
         </div>
         <div class="col-md-9 col-sm-12 ps-md-4">
             <div class="mb-3">
@@ -113,10 +19,17 @@
                 <InputText id="Prompt" @bind-Value="Request.Prompt" class="form-control"/>
             </div>
 
-            <SubmitButton Text="Create Completion"
-                          LoadingText="Creating Completion..."
-                          IsLoading="IsLoading">
-            </SubmitButton>
+            <div class="row">
+                <div class="col-auto">
+                    <SubmitButton Text="Create Completion"
+                                  LoadingText="Creating Completion..."
+                                  IsLoading="IsLoading">
+                    </SubmitButton>
+                </div>
+                <div class="col-auto p-0 d-block d-sm-block d-md-none">
+                    <OptionsButton IsLoading="IsLoading"></OptionsButton>
+                </div>
+            </div>
 
             @if (Response is not null && Error is null)
             {
@@ -170,6 +83,23 @@
             }
 
             <Error Model="Error"></Error>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="optionsModalLabel">Options</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <CompletionsOptions Request="Request" CompletionModels="CompletionModels" InColumn="true"></CompletionsOptions>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </EditForm>
