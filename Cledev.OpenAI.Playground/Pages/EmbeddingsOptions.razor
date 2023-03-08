@@ -1,0 +1,35 @@
+﻿@using Cledev.OpenAI.V1.Contracts.Embeddings
+@using Microsoft.AspNetCore.Components
+
+@if (Request is not null)
+{
+    <div class="row mb-3">
+        <FormLabel InputId="Model" InColumn="@InColumn" Tooltip="@Tooltips.Model">Model</FormLabel>
+        <div class="col-sm">
+            <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
+                @foreach (var item in EmbeddingsModels)
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <FormLabel InputId="User" InColumn="@InColumn" Tooltip="@Tooltips.User">User</FormLabel>
+        <div class="col-sm">
+            <InputText id="User" @bind-Value="Request.User" class="form-control" />
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public CreateEmbeddingsRequest? Request { get; set; }
+    [Parameter] public IList<string> EmbeddingsModels { get; set; } = new List<string>();
+    [Parameter] public bool InColumn { get; set; }
+
+    protected static class Tooltips
+    {
+        public static string Model = "Required. ID of the model to use. You can use the List models API to see all of your available models, or see our Model overview for descriptions of them.";
+        public static string User = "Optional. A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.";
+    }
+}
