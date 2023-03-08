@@ -2,53 +2,38 @@
 
 @if (Request is not null)
 {
-    <div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="optionsModalLabel">Options</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <FormLabel InputId="N" InColumn="true" Tooltip="@Tooltips.N">N</FormLabel>
-                        <div class="col-sm-7">
-                            <InputNumber id="N" @bind-Value="Request.N" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="Size" InColumn="true" Tooltip="@Tooltips.Size">Size</FormLabel>
-                        <div class="col-sm-7">
-                            <InputSelect id="Size" @bind-Value="Request.Size" class="form-select">
-                                @foreach (var item in Sizes)
-                                {
-                                    <option value="@item">@item</option>
-                                }
-                            </InputSelect>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <FormLabel InputId="ResponseFormat" InColumn="true" Tooltip="@Tooltips.ResponseFormat">Response Format</FormLabel>
-                        <div class="col-sm-7">
-                            <InputSelect id="ResponseFormat" @bind-Value="Request.ResponseFormat" class="form-select">
-                                @foreach (var item in Formats)
-                                {
-                                    <option value="@item">@item</option>
-                                }
-                            </InputSelect>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <FormLabel InputId="User" InColumn="true" Tooltip="@Tooltips.User">User</FormLabel>
-                        <div class="col-sm-7">
-                            <InputText id="User" @bind-Value="Request.User" class="form-control" r />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
+    <div class="row mb-3">
+        <FormLabel InputId="Size" InColumn="InColumn" Tooltip="@Tooltips.Size">Size</FormLabel>
+        <div class="col-sm">
+            <InputSelect id="Size" @bind-Value="Request.Size" class="form-select">
+                @foreach (var item in Sizes)
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <FormLabel InputId="N" InColumn="InColumn" Tooltip="@Tooltips.N">N</FormLabel>
+        <div class="col-sm">
+            <InputNumber id="N" @bind-Value="Request.N" class="form-control" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <FormLabel InputId="ResponseFormat" InColumn="InColumn" Tooltip="@Tooltips.ResponseFormat">Response Format</FormLabel>
+        <div class="col-sm">
+            <InputSelect id="ResponseFormat" @bind-Value="Request.ResponseFormat" class="form-select">
+                @foreach (var item in Formats)
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="row">
+        <FormLabel InputId="User" InColumn="InColumn" Tooltip="@Tooltips.User">User</FormLabel>
+        <div class="col-sm">
+            <InputText id="User" @bind-Value="Request.User" class="form-control" r />
         </div>
     </div>
 }
@@ -57,6 +42,7 @@
     [Parameter] public CreateImageRequestBase? Request { get; set; }
     [Parameter] public IList<string> Sizes { get; set; } = new List<string>();
     [Parameter] public IList<string> Formats { get; set; } = new List<string>();
+    [Parameter] public bool InColumn { get; set; }
 
     protected static class Tooltips
     {

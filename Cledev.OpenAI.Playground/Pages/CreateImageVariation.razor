@@ -21,39 +21,45 @@
 <p class="mb-4">Creates a variation of a given image.</p>
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
-    <div class="mb-3">
-        <FormLabel InputId="Image" Tooltip="@Tooltips.Image">Select the image</FormLabel>
-        <InputFile id="Image" OnChange="OnInputFileForImageChange" class="form-control"></InputFile>
+    <div class="row">
+        <div class="col-md-3 border-end pe-4 d-none d-md-block">
+            <CreateImageOptions Request="Request" Sizes="Sizes" Formats="Formats" InColumn="false"></CreateImageOptions>
+        </div>
+        <div class="col-md-9 col-sm-12 ps-md-4">
+            <div class="mb-3">
+                <FormLabel InputId="Image" Tooltip="@Tooltips.Image">Select the image</FormLabel>
+                <InputFile id="Image" OnChange="OnInputFileForImageChange" class="form-control"></InputFile>
+            </div>
+
+            <div class="row">
+                <div class="col-auto">
+                    <SubmitButton
+                        Text="Create Image Variation"
+                        LoadingText="Creating Image Variation..."
+                        IsLoading="IsLoading">
+                    </SubmitButton>
+                </div>
+                <div class="col-auto p-0 d-block d-sm-block d-md-none">
+                    <OptionsButton IsLoading="IsLoading"></OptionsButton>
+                </div>
+            </div>
+    
+            @if (Response is not null && Error is null)
+            {
+                <h4 class="mt-3">Response</h4>
+
+                @foreach (var image in Images)
+                {
+                    <img src="@image" alt="Image variation" class="mb-3 border" />
+                    <literal>&nbsp;</literal>
+                }
+            }
+        
+            <Error Model="Error"></Error>
+        </div>
     </div>
 
-    <CreateImageOptions Request="Request" Sizes="Sizes" Formats="Formats"></CreateImageOptions>
-
-    <SubmitButton
-        Text="Create Image Variation"
-        LoadingText="Creating Image Variation..."
-        IsLoading="IsLoading">
-    </SubmitButton>
-    
-    @*TODO: Move Options to a side panel*@
-    @if (IsLoading)
-    {
-        <button type="button" class="btn btn-outline-secondary" disabled>Options</button>
-    }
-    else
-    {
-        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#optionsModal">Options</button>
-    }
+    <OptionsModal>
+        <CreateImageOptions Request="Request" Sizes="Sizes" Formats="Formats" InColumn="true"></CreateImageOptions>
+    </OptionsModal>
 </EditForm>
-
-@if (Response is not null && Error is null)
-{
-    <h4 class="mt-3">Response</h4>
-
-    @foreach (var image in Images)
-    {
-        <img src="@image" alt="Image variation" class="mb-3 border" />
-        <literal>&nbsp;</literal>
-    }
-}
-
-<Error Model="Error"></Error>
