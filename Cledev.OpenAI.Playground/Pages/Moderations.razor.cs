@@ -23,7 +23,7 @@ public class ModerationsPage : PageComponentBase
 
     protected async Task OnSubmitAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
 
         Response = null;
         Error = null;
@@ -31,7 +31,7 @@ public class ModerationsPage : PageComponentBase
         Response = await OpenAIClient.CreateModeration(Request);
         Error = Response?.Error;
 
-        IsLoading = false;
+        IsProcessing = false;
     }
 
     protected static class Tooltips

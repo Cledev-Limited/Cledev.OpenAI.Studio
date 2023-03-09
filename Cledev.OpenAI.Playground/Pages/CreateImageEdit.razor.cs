@@ -57,7 +57,7 @@ public class CreateImageEditPage : ImagePageBase
 
     protected async Task OnSubmitAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
 
         Response = null;
         Error = null;
@@ -82,7 +82,7 @@ public class CreateImageEditPage : ImagePageBase
             }
         }
 
-        IsLoading = false;
+        IsProcessing = false;
     }
 
     protected static class Tooltips

@@ -17,7 +17,7 @@ public class ModelsPage : PageComponentBase
 
     protected async Task OnSubmitAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
         SearchCompleted = false;
         Models.Clear();
 
@@ -40,7 +40,7 @@ public class ModelsPage : PageComponentBase
             }
         }
 
-        IsLoading = false;
+        IsProcessing = false;
         SearchCompleted = true;
     }
 

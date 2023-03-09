@@ -57,7 +57,7 @@ public class FilesPage : PageComponentBase
 
     protected async Task LoadFiles()
     {
-        IsLoading = true;
+        IsProcessing = true;
         Files.Clear();
 
         StateHasChanged();
@@ -69,7 +69,7 @@ public class FilesPage : PageComponentBase
             Files.AddRange(response.Data);
         }
 
-        IsLoading = false;
+        IsProcessing = false;
     }
 
     protected void SetFileIdToDelete(string fileIdToDelete)

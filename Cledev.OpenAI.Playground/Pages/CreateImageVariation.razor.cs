@@ -50,7 +50,7 @@ public class CreateImageVariationPage : ImagePageBase
 
     protected async Task OnSubmitAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
 
         Response = null;
         Error = null;
@@ -75,7 +75,7 @@ public class CreateImageVariationPage : ImagePageBase
             }
         }
 
-        IsLoading = false;
+        IsProcessing = false;
     }
 
     protected static class Tooltips

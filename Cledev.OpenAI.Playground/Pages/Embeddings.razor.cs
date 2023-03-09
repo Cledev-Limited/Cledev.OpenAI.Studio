@@ -22,13 +22,13 @@ public class EmbeddingsPage : PageComponentBase
 
     protected async Task OnSubmitAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
         Response = null;
 
         Response = await OpenAIClient.CreateEmbeddings(Request);
         Error = Response?.Error;
 
-        IsLoading = false;
+        IsProcessing = false;
     }
 
     protected static class Tooltips

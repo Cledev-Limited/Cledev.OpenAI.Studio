@@ -20,7 +20,7 @@ Available soon
         <InputText id="Purpose" @bind-Value="UploadFileRequest.Purpose" class="form-control"/>
     </div>
 
-    @if (IsLoading)
+    @if (IsProcessing)
     {
         <button class="btn btn-primary text-nowrap" type="button" disabled>
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -33,13 +33,13 @@ Available soon
     }
 </EditForm>
 
-@if (IsLoading)
+@if (IsProcessing)
 {
     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
     <span>Loading Files...</span>
 }
 
-@if (Error is null && IsLoading is false)
+@if (Error is null && IsProcessing is false)
 {
     <div class="row my-4">
         <div class="col">

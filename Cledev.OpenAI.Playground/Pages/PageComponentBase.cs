@@ -10,7 +10,7 @@ public abstract class PageComponentBase : ComponentBase
     [Inject] public IOpenAIClient OpenAIClient { get; set; } = null!;
     [Inject] public IJSRuntime JsRuntime { get; set; } = null!;
 
-    protected bool IsLoading { get; set; }
+    protected bool IsProcessing { get; set; }
 
     protected Error? Error { get; set; }
 

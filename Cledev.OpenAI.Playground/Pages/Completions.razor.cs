@@ -25,7 +25,7 @@ public class CompletionsPage : PageComponentBase
 
     protected async Task OnSubmitAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
         Response = null;
 
         if (Request.Stream is true)
@@ -52,7 +52,7 @@ public class CompletionsPage : PageComponentBase
             Error = Response?.Error;
         }
 
-        IsLoading = false;
+        IsProcessing = false;
     }
 
     protected static class Tooltips

@@ -22,7 +22,7 @@ public class CreateImagePage : ImagePageBase
 
     protected async Task OnSubmitAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
 
         Response = null;
         Error = null;
@@ -47,7 +47,7 @@ public class CreateImagePage : ImagePageBase
             }
         }
 
-        IsLoading = false;
+        IsProcessing = false;
     }
 
     protected static class Tooltips

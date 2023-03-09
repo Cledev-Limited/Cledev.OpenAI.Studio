@@ -24,7 +24,7 @@ public class EditsPage : PageComponentBase
 
     protected async Task OnSubmitAsync()
     {
-        IsLoading = true;
+        IsProcessing = true;
 
         Response = null;
         Error = null;
@@ -32,7 +32,7 @@ public class EditsPage : PageComponentBase
         Response = await OpenAIClient.CreateEdit(Request);
         Error = Response?.Error;
 
-        IsLoading = false;
+        IsProcessing = false;
     }
 
     protected static class Tooltips
