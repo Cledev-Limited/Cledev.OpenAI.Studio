@@ -2,7 +2,7 @@
 {
     <button class="btn btn-primary text-nowrap" type="button" disabled>
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        @LoadingText
+        @ProcessingText
     </button>
 }
 else
@@ -18,5 +18,5 @@ else
     public string? Text { get; set; }
 
     [Parameter] 
-    public string? LoadingText { get; set; }
+    public string? ProcessingText { get; set; }
 }

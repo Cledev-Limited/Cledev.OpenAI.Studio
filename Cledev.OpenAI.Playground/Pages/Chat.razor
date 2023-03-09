@@ -1,7 +1,66 @@
 ﻿@page "/chat"
 
+@inherits ChatPage
+
 <PageTitle>Chat</PageTitle>
+
+<a id="top"></a>
 
 <PageHeader Icon="fa-regular fa-comments">Chat</PageHeader>
 
-Available soon
+<p class="mb-4">Given a chat conversation, the model will return a chat completion response.</p>
+
+<EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 border-end pe-4 d-none d-md-block overflow-auto">
+                <ChatOptions Request="Request" ChatModels="ChatModels" InColumn="false"></ChatOptions>
+            </div>
+            <div class="col-md-9 col-sm-12 ps-md-4">
+                @if (Messages.Any())
+                {
+                    <div class="mb-4">
+                        @foreach (var message in Messages)
+                        {
+                            <div class="row mx-1 my-3 border rounded">
+                                <div class="col-md-2 col-sm-3 border-end p-3 fw-bold">@message.Role</div>
+                                <div class="col-md-10 col-sm-9 p-3">@message.Content</div>
+                            </div>
+                        }
+                    </div>
+                }
+                
+                <a id="bottom"></a>
+
+                <Error Model="Error"></Error>
+
+                <div class="mb-3">
+                    <FormLabel InputId="Prompt" Tooltip="@Tooltips.Prompt">Prompt</FormLabel>
+                    <InputText id="Prompt" @bind-Value="Prompt" class="form-control"/>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        @if (IsProcessing)
+                        {
+                            <button type="submit" class="btn btn-primary text-nowrap" disabled>Submit</button>
+                            <button type="button" class="btn btn-outline-secondary ms-2" disabled>Reset</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary text-nowrap">Submit</button>
+                            <button type="button" class="btn btn-outline-secondary ms-2" @onclick="Reset">Reset</button>
+                        }
+                    </div>
+                    <div class="col-auto p-0 d-block d-sm-block d-md-none">
+                        <OptionsButton IsProcessing="IsProcessing"></OptionsButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <OptionsModal>
+        <ChatOptions Request="Request" ChatModels="ChatModels" InColumn="true"></ChatOptions>
+    </OptionsModal>
+</EditForm>
