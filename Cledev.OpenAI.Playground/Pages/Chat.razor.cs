@@ -36,6 +36,8 @@ public class ChatPage : PageComponentBase
         Messages.Add(new Message("User", Prompt ?? string.Empty, 0));
         Messages.Add(new Message("Assistant", string.Empty, 0));
 
+        Prompt = null;
+
         if (Request.Stream is true)
         {
             var completions = OpenAIClient.CreateChatCompletionAsStream(Request);
@@ -62,7 +64,6 @@ public class ChatPage : PageComponentBase
             await JsRuntime.InvokeVoidAsync("scrollToTarget", "bottom");
         }
 
-        Prompt = null;
         IsProcessing = false;
     }
 
