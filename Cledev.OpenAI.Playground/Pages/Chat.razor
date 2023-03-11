@@ -11,7 +11,7 @@
 <p class="mb-4">Given a chat conversation, the model will return a chat completion response.</p>
 
 <EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
-    <div class="row">
+    @*<div class="row">
         <div class="col-md-3 border-end pe-4 d-none d-md-block overflow-auto">
             <ChatOptions Request="Request" ChatModels="ChatModels" InColumn="false"></ChatOptions>
         </div>
@@ -24,15 +24,35 @@
                     <OptionsButton IsProcessing="IsProcessing"></OptionsButton>
                 </div>
             </div>
-            
+        </div>
+    </div>*@
+    
+    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#chatModal">Open Chat</button>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasOptions" aria-labelledby="offcanvasOptionsLabel" style="z-index: 10000;">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasOptionsLabel">Options</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ChatOptions Request="Request" ChatModels="ChatModels" InColumn="false"></ChatOptions>
         </div>
     </div>
+
     <div class="modal" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header bg-dark text-white">
                     <h5 class="modal-title" id="chatModalLabel">Chat</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-header" style="background-color: #f7f7f7;">
+                    <div class="row m-auto">
+                        <div class="col-12">
+                            <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasOptions" aria-controls="offcanvasOptions">Options</button>
+                            <button type="button" class="btn btn-outline-secondary ms-2" @onclick="Reset">Reset</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-body">
                     @if (Messages.Any())
@@ -60,7 +80,7 @@
                                             }
                                             else
                                             {
-                                                @message.Content
+                                                @((MarkupString) message.Content)
                                             }
                                         </div>
                                     </div>
@@ -87,7 +107,7 @@
             </div>
         </div>
     </div>
-    <OptionsModal>
+    @*<OptionsModal>
         <ChatOptions Request="Request" ChatModels="ChatModels" InColumn="true"></ChatOptions>
-    </OptionsModal>
+    </OptionsModal>*@
 </EditForm>

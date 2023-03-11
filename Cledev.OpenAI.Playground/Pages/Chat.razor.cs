@@ -1,6 +1,7 @@
 ﻿using Cledev.OpenAI.V1.Contracts.Chats;
 using Cledev.OpenAI.V1.Helpers;
 using Microsoft.JSInterop;
+using Cledev.OpenAI.Playground.Extensions;
 
 namespace Cledev.OpenAI.Playground.Pages;
 
@@ -19,7 +20,7 @@ public class ChatPage : PageComponentBase
         {
             Model = ChatModel.Gpt35Turbo.ToStringModel(),
             N = 1,
-            MaxTokens = 100,
+            MaxTokens = 500,
             Stream = true,
             Messages = new List<ChatCompletionMessage>()
         };
@@ -42,13 +43,25 @@ public class ChatPage : PageComponentBase
         {
             var completions = OpenAIClient.CreateChatCompletionAsStream(Request);
 
-            await foreach(var completion in completions)
+            await foreach (var completion in completions)
             {
+                Error = completion.Error;
+
+                if (Error is not null)
+                {
+                    continue;
+                }
+
                 Messages.Last().Content += completion.Choices[0].Message?.Content;
 
-                await JsRuntime.InvokeVoidAsync("scrollToTarget", "bottom");
+                if (Messages.Last().Content.ContainsCode())
+                {
+                    Messages.Last().Content = Messages.Last().Content.FormatCode()!;
+                }
 
-                StateHasChanged();
+                await InvokeAsync(StateHasChanged);
+
+                await JsRuntime.InvokeVoidAsync("scrollToTarget", "bottom");
             }
         }
         else
@@ -58,10 +71,14 @@ public class ChatPage : PageComponentBase
 
             if (Error is null)
             {
-                Messages.Last().Content += response?.Choices[0].Message?.Content;
-            }
+                var content = response!.Choices[0].Message?.Content;
 
-            await JsRuntime.InvokeVoidAsync("scrollToTarget", "bottom");
+                Messages.Last().Content += content.FormatCode();
+
+                await InvokeAsync(StateHasChanged);
+
+                await JsRuntime.InvokeVoidAsync("scrollToTarget", "bottom");
+            }
         }
 
         IsProcessing = false;
@@ -72,11 +89,6 @@ public class ChatPage : PageComponentBase
         Prompt = null;
         Messages.Clear();
         JsRuntime.InvokeVoidAsync("scrollToTarget", "top");
-    }
-
-    protected static class Tooltips
-    {
-        public static string Prompt = "The prompt for the chat.";
     }
 
     public class Message

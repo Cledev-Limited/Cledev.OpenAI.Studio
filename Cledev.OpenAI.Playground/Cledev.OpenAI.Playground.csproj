@@ -7,6 +7,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Pages\Chat.razor.css" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Pages\Chat.razor.css" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Markdig.Signed" Version="0.31.0" />
 	</ItemGroup>
 
@@ -16,6 +24,12 @@
 
 	<ItemGroup>
 		<Folder Include="wwwroot\images\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Pages\Chat.razor.cs">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Compile>
 	</ItemGroup>
 
 </Project>
