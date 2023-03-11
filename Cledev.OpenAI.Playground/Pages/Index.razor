@@ -3,13 +3,75 @@
 
 <PageTitle>Cledev OpenAI Playground</PageTitle>
 
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+    <IndexCard Icon="fa-regular fa-file-audio"
+               Title="Audio"
+               Description="Turn audio into text."
+               Link="/audio">
+    </IndexCard>
+    <IndexCard Icon="fa-regular fa-comments"
+               Title="Chat"
+               Description="Given a chat conversation, the model will return a chat completion response."
+               Link="/chat">
+    </IndexCard>
+    <IndexCard Icon="fa-regular fa-comment"
+               Title="Completions"
+               Description="Given a prompt, the model will return one or more predicted completions."
+               Link="/completions">
+    </IndexCard>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+    <IndexCard Icon="fa-regular fa-pen-to-square"
+               Title="Edits"
+               Description="Given a prompt and an instruction, the model will return an edited version of the prompt."
+               Link="/edits">
+    </IndexCard>
+    <IndexCard Icon="fa-solid fa-circle-nodes"
+               Title="Embeddings"
+               Description="Create vector representation of a given input that can be consumed by machine learning models and algorithms."
+               Link="/embeddings">
+    </IndexCard>
+    <IndexCard Icon="fa-regular fa-file"
+               Title="Files"
+               Description="Upload documents that can be used with features like fine-tuning."
+               Link="/files">
+    </IndexCard>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+    <IndexCard Icon="fa-solid fa-screwdriver-wrench"
+               Title="Fine-Tunes"
+               Description="Manage fine-tuning jobs to tailor a model to your specific training data."
+               Link="/fine-tunes">
+    </IndexCard>
+    <IndexCard Icon="fa-solid fa-circle-nodes"
+               Title="Images"
+               Description="Creates or edit an image given a prompt."
+               Link="/create-image">
+    </IndexCard>
+    <IndexCard Icon="fa-solid fa-database"
+               Title="Models"
+               Description="List the various models available in the API."
+               Link="/models">
+    </IndexCard>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+    <IndexCard Icon="fa-solid fa-comment-slash"
+               Title="Moderations"
+               Description="Given a input text, outputs if the model classifies it as violating OpenAI's content policy."
+               Link="/moderations">
+    </IndexCard>
+</div>
+
 <div class="card">
     <div class="card-header">Configuration</div>
     <div class="card-body">
         <p>In order to use the playground, you need to update <span class="fw-bold">appsettings.json</span> with your your <span class="fw-bold">ApiKey</span> and <span class="fw-bold">Organization</span>.</p>
         @if (string.IsNullOrEmpty(Content) is false)
         {
-            @((MarkupString) Content)
+            @((MarkupString)Content)
         }
         <p>Get your ApiKey from the <a href="https://platform.openai.com/account/">OpenAPI Platform</a>.</p>
     </div>
