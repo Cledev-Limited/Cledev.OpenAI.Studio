@@ -1,4 +1,5 @@
-﻿using Cledev.OpenAI.V1.Contracts.Edits;
+﻿using Cledev.OpenAI.Playground.Extensions;
+using Cledev.OpenAI.V1.Contracts.Edits;
 using Cledev.OpenAI.V1.Helpers;
 
 namespace Cledev.OpenAI.Playground.Pages;
@@ -31,6 +32,14 @@ public class EditsPage : PageComponentBase
 
         Response = await OpenAIClient.CreateEdit(Request);
         Error = Response?.Error;
+
+        if (Response is not null)
+        {
+            foreach (var choice in Response.Choices)
+            {
+                choice.Text = choice.Text.FormatCode()!;
+            }
+        }
 
         IsProcessing = false;
     }
