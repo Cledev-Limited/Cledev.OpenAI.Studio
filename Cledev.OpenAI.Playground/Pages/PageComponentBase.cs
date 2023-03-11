@@ -1,6 +1,7 @@
 ﻿using Cledev.OpenAI.V1;
 using Cledev.OpenAI.V1.Contracts;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 
 namespace Cledev.OpenAI.Playground.Pages;
@@ -20,5 +21,24 @@ public abstract class PageComponentBase : ComponentBase
         {
             await JsRuntime.InvokeVoidAsync("addTooltips");
         }
+    }
+
+    protected async Task<byte[]> GetFileBytes(InputFileChangeEventArgs e)
+    {
+        using var memoryStream = new MemoryStream();
+
+        try
+        {
+            await e.File.OpenReadStream(maxAllowedSize: 4000000).CopyToAsync(memoryStream);
+        }
+        catch (Exception exception)
+        {
+            Error = new Error
+            {
+                Message = exception.Message
+            };
+        }
+
+        return memoryStream.ToArray();
     }
 }

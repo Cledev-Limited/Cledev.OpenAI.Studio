@@ -6,32 +6,7 @@
 
 <PageHeader Icon="fa-regular fa-file">Files</PageHeader>
 
-Available soon
-
-@*<p class="mb-4">Files are used to upload documents that can be used with features like <a href="https://platform.openai.com/docs/api-reference/fine-tunes" title="Fine-tuning" target="_blank">Fine-tuning</a>.</p>
-
-<EditForm Model="UploadFileRequest" OnValidSubmit="OnSubmitAsync">
-    <div class="mb-3">
-        <label for="File" class="form-label">Select a file to upload</label>
-        <InputFile id="File" OnChange="OnInputFileChange" class="form-control"></InputFile>
-    </div>
-    <div class="mb-3">
-        <label for="Purpose" class="form-label">Purpose</label>
-        <InputText id="Purpose" @bind-Value="UploadFileRequest.Purpose" class="form-control"/>
-    </div>
-
-    @if (IsProcessing)
-    {
-        <button class="btn btn-primary text-nowrap" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            Uploading File...
-        </button>
-    }
-    else
-    {
-        <button type="submit" class="btn btn-primary">Upload File</button>
-    }
-</EditForm>
+<p class="mb-4">Files are used to upload documents that can be used with features like <a href="https://platform.openai.com/docs/api-reference/fine-tunes" title="Fine-tuning" target="_blank">Fine-tuning</a>.</p>
 
 @if (IsProcessing)
 {
@@ -41,43 +16,93 @@ Available soon
 
 @if (Error is null && IsProcessing is false)
 {
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload File</button>
+
     <div class="row my-4">
         <div class="col">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th scope="col" class="text-center">&nbsp;</th>
-                    <th scope="col">Id</th>
-                    <th scope="col">File Name</th>
-                    <th scope="col">Bytes</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">Purpose</th>
-                    <th scope="col">&nbsp;</th>
-                </tr>
-                </thead>
-                <tbody>
-                @for (var index = 0; index < Files.Count; index++)
-                {
-                    var file = Files[index];
+            @if (Files.Any())
+            {
+                <table class="table table-bordered">
+                    <thead>
                     <tr>
-                        <th scope="row" class="text-end">@(index + 1)</th>
-                        <td>@file.Id</td>
-                        <td>@file.FileName</td>
-                        <td class="text-end">@file.Bytes</td>
-                        <td>@file.CreatedAt</td>
-                        <td>@file.Purpose</td>
-                        <td class="text-center">
-                            <a href="#" @onclick:preventDefault="true" @onclick="() => SetFileIdToDelete(file.Id)" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <i class="fa-regular fa-trash-can"></i>
-                            </a>
-                        </td>
+                        <th scope="col" class="text-center">&nbsp;</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">File Name</th>
+                        <th scope="col">Bytes</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Purpose</th>
+                        <th scope="col">&nbsp;</th>
                     </tr>
-                }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @for (var index = 0; index < Files.Count; index++)
+                    {
+                        var file = Files[index];
+                        <tr>
+                            <th scope="row" class="text-end">@(index + 1)</th>
+                            <td>@file.Id</td>
+                            <td>@file.FileName</td>
+                            <td class="text-end">@file.Bytes</td>
+                            <td>@file.CreatedAt</td>
+                            <td>@file.Purpose</td>
+                            <td class="text-center">
+                                <a href="#" @onclick:preventDefault="true" @onclick="() => SetFileIdToDelete(file.Id)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-secondary" role="alert">
+                    No files found
+                </div>
+            }
         </div>
     </div>
 }
+
+<Error Model="Error"></Error>
+
+<EditForm Model="UploadFileRequest" OnValidSubmit="OnSubmitAsync">
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="File" class="form-label">Select a file to upload</label>
+                        <InputFile id="File" OnChange="OnInputFileChange" class="form-control"></InputFile>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Purpose" class="form-label">Purpose</label>
+                        <InputText id="Purpose" @bind-Value="UploadFileRequest.Purpose" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if (IsUploading)
+                    {
+                        <button class="btn btn-primary text-nowrap" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Uploading File...
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary">Upload File</button>
+                    }
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -87,14 +112,22 @@ Available soon
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete @FileIdToDelete?
+                Are you sure you want to delete <span class="fw-bold">@FileIdToDelete</span>?
             </div>
             <div class="modal-footer">
+                @if (IsUploading)
+                {
+                    <button class="btn btn-danger text-nowrap" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Deleting File...
+                    </button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-danger" id="delete-file" @onclick="async () => await DeleteFile()">Delete</button>
+                }
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" id="delete-file" @onclick="async () => await DeleteFile()">Delete</button>
             </div>
         </div>
     </div>
 </div>
-
-<Error Model="Error"></Error>*@
