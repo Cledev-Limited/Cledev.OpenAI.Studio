@@ -4,13 +4,14 @@
 <PageTitle>Cledev OpenAI Playground</PageTitle>
 
 <div class="card">
+    <div class="card-header">Configuration</div>
     <div class="card-body">
-        <h5 class="card-title">Configuration</h5>
-        <p>In order to use the playground, you need to update <span class="fw-bold">appsettings.json</span> with your your <span class="fw-bold">ApiKey</span> and <span class="fw-bold">Organization</span> (<a href="https://platform.openai.com/account/">get yours</a>).</p>
+        <p>In order to use the playground, you need to update <span class="fw-bold">appsettings.json</span> with your your <span class="fw-bold">ApiKey</span> and <span class="fw-bold">Organization</span>.</p>
         @if (string.IsNullOrEmpty(Content) is false)
         {
-            @((MarkupString)Content)
+            @((MarkupString) Content)
         }
+        <p>Get your ApiKey from the <a href="https://platform.openai.com/account/">OpenAPI Platform</a>.</p>
     </div>
 </div>
 
