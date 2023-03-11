@@ -1,0 +1,15 @@
+﻿@foreach (var image in Images)
+{
+    <div class="card d-flex mt-3">
+        <div class="card-header">
+            @image.Type
+        </div>
+        <div class="card-body">
+            <img src="@image.Path" alt="@image.Type" style="max-width: 100%; height: auto; display: block;" />
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public IList<Image> Images { get; set; } = new List<Image>();
+}

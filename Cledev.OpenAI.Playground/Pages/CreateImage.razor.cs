@@ -33,18 +33,7 @@ public class CreateImagePage : ImagePageBase
 
         if (Response is not null)
         {
-            foreach (var image in Response.Data)
-            {
-                if (string.IsNullOrEmpty(image.Url) is false)
-                {
-                    Images.Add(image.Url);
-                }
-                else if (string.IsNullOrEmpty(image.B64Json) is false)
-                {
-                    var imagePath = Base64ToImage(image.B64Json);
-                    Images.Add(imagePath);
-                }
-            }
+            Images.AddRangeFromResponse(Response, ImageType.Created);
         }
 
         IsProcessing = false;
