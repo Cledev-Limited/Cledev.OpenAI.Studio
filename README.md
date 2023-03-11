@@ -17,3 +17,6 @@ Blazor Server Playground for OpenAI using [Cledev.OpenAI](https://github.com/luc
 
 ### Create Image
 <img src="https://user-images.githubusercontent.com/8679253/224492443-e86c6ee3-cbf6-43ed-a36d-71b6b3300ea2.png" width="600" />
+
+### Audio Translation
+<img src="https://user-images.githubusercontent.com/8679253/224505129-70390f93-3c60-47da-8e1d-9104fccca6ad.png" width="600" />
