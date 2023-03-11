@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Components
+@using Cledev.OpenAI.V1.Contracts.Audio
+
+@if (Request is not null)
+{
+    <div class="row mb-3">
+        <FormLabel InputId="Model" InColumn="@InColumn" Tooltip="@Tooltips.Model">Model</FormLabel>
+        <div class="col-sm">
+            <InputSelect id="Model" @bind-Value="Request.Model" class="form-select">
+                @foreach (var item in AudioModels)
+                {
+                    <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+        <div class="row mb-3">
+        <FormLabel InputId="ResponseFormat" InColumn="@InColumn" Tooltip="@Tooltips.ResponseFormat">Response Format</FormLabel>
+        <div class="col-sm">
+            <InputSelect id="ResponseFormat" @bind-Value="Request.ResponseFormat" class="form-select">
+                @foreach (var item in ResponseFormats)
+                {
+                        <option value="@item">@item</option>
+                }
+            </InputSelect>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <FormLabel InputId="Temperature" InColumn="@InColumn" Tooltip="@Tooltips.Temperature">Temperature</FormLabel>
+        <div class="col-sm">
+            <InputNumber id="Temperature" @bind-Value="Request.Temperature" @bind-Value:format="F2" class="form-control" />
+        </div>
+    </div>
+    <div class="mb-3">
+        <FormLabel InputId="Language" Tooltip="@Tooltips.Language">Input</FormLabel>
+        <InputText id="Language" @bind-Value="Request.Language" class="form-control" />
+    </div>
+}
+
+@code {
+    [Parameter] public CreateAudioTranscriptionRequest? Request { get; set; }
+    [Parameter] public IList<string> AudioModels { get; set; } = new List<string>();
+    [Parameter] public IList<string> ResponseFormats { get; set; } = new List<string>();
+    [Parameter] public bool InColumn { get; set; }
+
+    protected static class Tooltips
+    {
+        public static string Model = "Required. ID of the model to use. Only whisper-1 is currently available.";
+        public static string Temperature = "Optional (Defaults to 0). The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.";
+        public static string ResponseFormat = "Optional (Defaults to json). The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.";
+        public static string Language = "Optional. The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency.";
+    }
+}

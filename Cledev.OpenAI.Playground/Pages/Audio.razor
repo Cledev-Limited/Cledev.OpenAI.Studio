@@ -1,7 +1,102 @@
 ﻿@page "/audio"
 
+@using System.Text.Json
+@using Cledev.OpenAI.V1.Helpers
+@inherits AudioPage
+
 <PageTitle>Audio</PageTitle>
 
 <PageHeader Icon="fa-regular fa-file-audio">Audio</PageHeader>
 
-Available soon
+<p class="mb-4">Turn audio into text.</p>
+
+<EditForm Model="Request" OnValidSubmit="OnSubmitAsync">
+    <div class="row">
+        <div class="col-md-3 border-end pe-4 d-none d-md-block">
+            <AudioOptions Request="Request" AudioModels="AudioModels" ResponseFormats="ResponseFormats" InColumn="false"></AudioOptions>
+        </div>
+        <div class="col-md-9 col-sm-12 ps-md-4">
+            <div class="mb-3">
+                <FormLabel InputId="File" Tooltip="@Tooltips.File">Select the audio file</FormLabel>
+                <InputFile id="File" OnChange="OnInputFileChange" class="form-control"></InputFile>
+            </div>
+            <div class="mb-3">
+                <FormLabel InputId="Prompt" Tooltip="@Tooltips.Prompt" ExtraInfo="Optional">Input</FormLabel>
+                <InputText id="Prompt" @bind-Value="Request.Prompt" class="form-control"/>
+            </div>
+
+            <div class="row">
+                <div class="col-auto">
+                    <SubmitButton Text="Translate Audio"
+                                  ProcessingText="Translating Audio..."
+                                  IsProcessing="IsProcessing">
+                    </SubmitButton>
+                </div>
+                <div class="col-auto p-0 d-block d-sm-block d-md-none">
+                    <OptionsButton IsProcessing="IsProcessing"></OptionsButton>
+                </div>
+            </div>
+
+            @if (Response is not null && Error is null)
+            {
+                <div class="row mt-4">
+                    <div class="col">
+                        <h4>Response</h4>
+                        
+                        <div class="card d-flex mt-3">
+                            <div class="card-body">
+                                @Response.Text
+                            </div>
+                        </div>
+
+                        @if (Response.Segments is not null)
+                        {
+                            @for (var index = 0; index < Response.Segments!.Count; index++)
+                            {
+                                var segment = Response.Segments[index];
+                                <div class="card d-flex mt-3">
+                                    <div class="card-header">
+                                        Segment @(index + 1)
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">@segment.Text</div>
+                                        <span class="fw-bold">Id</span>: @segment.Id<br />
+                                        <span class="fw-bold">Seek</span>: @segment.Seek<br />
+                                        <span class="fw-bold">Start</span>: @segment.Start<br />
+                                        <span class="fw-bold">End</span>: @segment.End<br />
+                                        <span class="fw-bold">Temperature</span>: @segment.Temperature<br />
+                                        <span class="fw-bold">Avg Log Prob</span>: @segment.AvgLogProb<br />
+                                        <span class="fw-bold">Compression Ratio</span>: @segment.CompressionRatio<br />
+                                        <span class="fw-bold">No Speech Prob</span>: @segment.NoSpeechProb<br />
+                                        <span class="fw-bold">Transient</span>: @segment.Transient<br />
+                                        <span class="fw-bold">Tokens</span>: @string.Join(", ", segment.Tokens.Select(x => x))
+                                    </div>
+                                </div>
+                            }
+                        }
+                        
+                        @if (Request.ResponseFormat == AudioResponseFormat.VerboseJson.ToStringFormat())
+                        {
+                            <div class="card d-flex mt-3">
+                                <div class="card-header">
+                                    Info
+                                </div>
+                                <div class="card-body">
+                                    <span class="fw-bold">Duration</span>: @Response.Duration<br />
+                                    <span class="fw-bold">Language</span>: @Response.Language<br />
+                                    <span class="fw-bold">Task</span>: @Response.Task
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <Error Model="Error"></Error>
+        </div>
+    </div>
+
+    <OptionsModal>
+        <AudioOptions Request="Request" AudioModels="AudioModels" ResponseFormats="ResponseFormats" InColumn="true"></AudioOptions>
+    </OptionsModal>
+</EditForm>
