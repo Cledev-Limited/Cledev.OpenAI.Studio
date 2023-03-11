@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -19,7 +19,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cledev.OpenAI" Version="1.0.0-beta-2023-03-08" />
+    <PackageReference Include="Cledev.OpenAI" Version="1.0.0" />
   </ItemGroup>
 
 	<ItemGroup>
