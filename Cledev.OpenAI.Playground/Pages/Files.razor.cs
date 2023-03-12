@@ -40,8 +40,6 @@ public class FilesPage : PageComponentBase
     {
         IsUploading = true;
 
-        await Task.Delay(1000);
-
         var response = await OpenAIClient.UploadFile(UploadFileRequest);
         UploadError = response?.Error;
         if (UploadError is null)
