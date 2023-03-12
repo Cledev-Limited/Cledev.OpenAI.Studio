@@ -84,6 +84,7 @@
                         <label for="Purpose" class="form-label">Purpose</label>
                         <InputText id="Purpose" @bind-Value="UploadFileRequest.Purpose" class="form-control" />
                     </div>
+                    <Error Model="UploadError"></Error>
                 </div>
                 <div class="modal-footer">
                     @if (IsUploading)
@@ -113,9 +114,10 @@
             </div>
             <div class="modal-body">
                 Are you sure you want to delete <span class="fw-bold">@FileIdToDelete</span>?
+                <Error Model="DeleteError"></Error>
             </div>
             <div class="modal-footer">
-                @if (IsUploading)
+                @if (IsDeleting)
                 {
                     <button class="btn btn-danger text-nowrap" type="button" disabled>
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
