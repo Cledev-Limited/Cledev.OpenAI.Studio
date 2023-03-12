@@ -36,25 +36,6 @@ public class CreateImageEditPage : ImagePageBase
         Request.MaskName = e.File.Name;
     }
 
-    private async Task<byte[]> GetFileBytes(InputFileChangeEventArgs e)
-    {
-        using var memoryStream = new MemoryStream();
-
-        try
-        {
-            await e.File.OpenReadStream(maxAllowedSize: 4000000).CopyToAsync(memoryStream);
-        }
-        catch (Exception exception)
-        {
-            Error = new Error
-            {
-                Message = exception.Message
-            };
-        }
-
-        return memoryStream.ToArray();
-    }
-
     protected async Task OnSubmitAsync()
     {
         IsProcessing = true;

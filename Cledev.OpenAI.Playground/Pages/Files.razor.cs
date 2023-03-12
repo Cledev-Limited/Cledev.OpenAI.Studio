@@ -1,6 +1,7 @@
 ﻿using Cledev.OpenAI.V1.Contracts;
 using Cledev.OpenAI.V1.Contracts.Files;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 
 namespace Cledev.OpenAI.Playground.Pages;
 
@@ -11,7 +12,11 @@ public class FilesPage : PageComponentBase
     public List<FileResponse> Files { get; set; } = new();
     public string? FileIdToDelete { get; set; }
 
-    protected bool IsUploading { get; set; }
+    public bool IsUploading { get; set; }
+    protected Error? UploadError { get; set; }
+
+    public bool IsDeleting { get; set; }
+    protected Error? DeleteError { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,28 +36,21 @@ public class FilesPage : PageComponentBase
         UploadFileRequest.FileName = e.File.Name;
     }
 
-    private async Task<byte[]> GetFileBytes(InputFileChangeEventArgs e)
-    {
-        using var memoryStream = new MemoryStream();
-
-        try
-        {
-            await e.File.OpenReadStream(maxAllowedSize: 4000000).CopyToAsync(memoryStream);
-        }
-        catch (Exception exception)
-        {
-            Error = new Error
-            {
-                Message = exception.Message
-            };
-        }
-
-        return memoryStream.ToArray();
-    }
-
     protected async Task OnSubmitAsync()
     {
+        IsUploading = true;
 
+        await Task.Delay(1000);
+
+        var response = await OpenAIClient.UploadFile(UploadFileRequest);
+        UploadError = response?.Error;
+        if (UploadError is null)
+        {
+            await JsRuntime.InvokeVoidAsync("toggleModal", "uploadModal");
+            await LoadFiles();
+        }
+
+        IsUploading = false;
     }
 
     protected async Task LoadFiles()
@@ -79,10 +77,16 @@ public class FilesPage : PageComponentBase
 
     protected async Task DeleteFile()
     {
+        IsDeleting = true;
+
         var deleteFileResponse = await OpenAIClient.DeleteFile(FileIdToDelete!);
-        if (deleteFileResponse is not null && deleteFileResponse.Deleted)
+        DeleteError = deleteFileResponse?.Error;
+        if (DeleteError is null)
         {
+            await JsRuntime.InvokeVoidAsync("toggleModal", "deleteModal");
             await LoadFiles();
         }
+
+        IsDeleting = false;
     }
 }
