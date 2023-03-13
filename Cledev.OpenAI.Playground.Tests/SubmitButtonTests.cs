@@ -9,7 +9,7 @@ namespace Cledev.OpenAI.Playground.Tests;
 public class SubmitButtonTests : TestContext
 {
     [Test]
-    public void ShouldRenderText()
+    public void ShouldRenderText_WhenNonProcessing()
     {
         var componentParameters = new[]
         {
@@ -23,5 +23,28 @@ public class SubmitButtonTests : TestContext
         var buttonText = component.Find("button").TextContent;
 
         buttonText.Should().Be("Create Completion");
+    }
+
+    [Test]
+    public void ShouldRenderProcessingText_WhenProcessing()
+    {
+        var componentParameters = new[]
+        {
+            ComponentParameter.CreateParameter(
+                name: "Text",
+                value: "Create Completion"),
+            ComponentParameter.CreateParameter(
+                name: "ProcessingText",
+                value: "Creating Completion..."),
+            ComponentParameter.CreateParameter(
+                name: "IsProcessing",
+                value: true)
+        };
+
+        var component = RenderComponent<SubmitButton>(componentParameters);
+
+        var buttonText = component.Find("button").TextContent;
+
+        buttonText.Should().Contain("Creating Completion...");
     }
 }
