@@ -34,6 +34,13 @@ public class CompletionsPage : PageComponentBase
 
             await foreach (var completion in completions)
             {
+                Error = completion.Error;
+
+                if (Error is not null)
+                {
+                    break;
+                }
+
                 if (Response is null)
                 {
                     Response = completion;

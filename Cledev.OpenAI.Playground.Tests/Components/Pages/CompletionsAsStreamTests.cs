@@ -8,18 +8,23 @@ using Error = Cledev.OpenAI.V1.Contracts.Error;
 
 namespace Cledev.OpenAI.Playground.Tests.Components.Pages;
 
-public class CompletionsComponentTests : ComponentTestBase
+public class CompletionsAsStreamTests : ComponentTestBase
 {
     [Test]
     public void GivenAPIReturnsError_ThenErrorMessageIsRendered()
     {
+        async IAsyncEnumerable<CreateCompletionResponse> GetResponses()
+        {
+            await Task.CompletedTask;
+            yield return new CreateCompletionResponse { Error = new Error { Message = "Some Error Message" } };
+        }
+
         OpenAIClient
-            .Setup(x => x.CreateCompletion(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
-            .ReturnsAsync(new CreateCompletionResponse { Error = new Error { Message = "Some Error Message" } });
+            .Setup(x => x.CreateCompletionAsStream(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
+            .Returns(GetResponses);
 
         var cut = RenderComponent<Completions>();
 
-        cut.Find("input[id=Stream]").Change(false);
         cut.Find("button").Click();
 
         cut.WaitForState(() => cut.Find("span[id=errorMessage]") is { TextContent: not null });
@@ -30,13 +35,18 @@ public class CompletionsComponentTests : ComponentTestBase
     [Test]
     public void GivenAPIReturnsResult_ThenCompletionIsRendered()
     {
+        async IAsyncEnumerable<CreateCompletionResponse> GetResponses()
+        {
+            await Task.CompletedTask;
+            yield return new CreateCompletionResponse { Choices = new List<CompletionChoice> { new() { Text = "Completion Text" } } };
+        }
+
         OpenAIClient
-            .Setup(x => x.CreateCompletion(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
-            .ReturnsAsync(new CreateCompletionResponse { Choices = new List<CompletionChoice> { new() { Text = "Completion Text" } }});
+            .Setup(x => x.CreateCompletionAsStream(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
+            .Returns(GetResponses);
 
         var cut = RenderComponent<Completions>();
 
-        cut.Find("input[id=Stream]").Change(false);
         cut.Find("button").Click();
 
         cut.WaitForState(() => cut.Find("div[id=choice1Text]") is { TextContent: not null });
@@ -47,13 +57,18 @@ public class CompletionsComponentTests : ComponentTestBase
     [Test]
     public void GivenAPIReturnsResult_ThenErrorMessageIsNotRendered()
     {
+        async IAsyncEnumerable<CreateCompletionResponse> GetResponses()
+        {
+            await Task.CompletedTask;
+            yield return new CreateCompletionResponse { Choices = new List<CompletionChoice> { new() { Text = "Completion Text" } } };
+        }
+
         OpenAIClient
-            .Setup(x => x.CreateCompletion(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
-            .ReturnsAsync(new CreateCompletionResponse { Choices = new List<CompletionChoice> { new() { Text = "Completion Text" } } });
+            .Setup(x => x.CreateCompletionAsStream(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
+            .Returns(GetResponses);
 
         var cut = RenderComponent<Completions>();
 
-        cut.Find("input[id=Stream]").Change(false);
         cut.Find("button").Click();
 
         cut.WaitForState(() => cut.Find("div[id=choice1Text]") is { TextContent: not null });
