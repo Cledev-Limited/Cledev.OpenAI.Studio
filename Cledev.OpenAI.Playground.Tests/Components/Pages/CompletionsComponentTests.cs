@@ -39,9 +39,9 @@ public class CompletionsComponentTests : ComponentTestBase
         cut.Find("input[id=Stream]").Change(false);
         cut.Find("button").Click();
 
-        cut.WaitForState(() => cut.Find("div[id=choice1]") is { TextContent: not null });
+        cut.WaitForState(() => cut.Find("div[id=choice1Text]") is { TextContent: not null });
 
-        cut.Find("div[id=choice1]").TextContent.Should().Contain("Completion Text");
+        cut.Find("div[id=choice1Text]").TextContent.Should().Contain("Completion Text");
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class CompletionsComponentTests : ComponentTestBase
         cut.Find("input[id=Stream]").Change(false);
         cut.Find("button").Click();
 
-        cut.WaitForState(() => cut.Find("div[id=choice1]") is { TextContent: not null });
+        cut.WaitForState(() => cut.Find("div[id=choice1Text]") is { TextContent: not null });
 
         Action act = () => cut.Find("span[id=errorMessage]");
         act.Should().Throw<ElementNotFoundException>();
