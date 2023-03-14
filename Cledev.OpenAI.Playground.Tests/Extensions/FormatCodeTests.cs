@@ -2,7 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Cledev.OpenAI.Playground.Tests;
+namespace Cledev.OpenAI.Playground.Tests.Extensions;
 
 public class FormatCodeTests
 {
