@@ -5,7 +5,7 @@ namespace Cledev.OpenAI.Playground.Pages;
 
 public class CompletionsPage : PageComponentBase
 {
-    protected CreateCompletionRequest Request { get; set; } = null!;
+    public CreateCompletionRequest Request { get; set; } = null!;
     protected CreateCompletionResponse? Response { get; set; }
 
     public IList<string> CompletionModels { get; set; } = new List<string>();

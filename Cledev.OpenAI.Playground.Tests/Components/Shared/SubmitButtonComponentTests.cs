@@ -2,11 +2,10 @@
 using Cledev.OpenAI.Playground.Shared;
 using FluentAssertions;
 using NUnit.Framework;
-using TestContext = Bunit.TestContext;
 
-namespace Cledev.OpenAI.Playground.Tests;
+namespace Cledev.OpenAI.Playground.Tests.Components.Shared;
 
-public class SubmitButtonTests : TestContext
+public class SubmitButtonComponentTests : ComponentTestBase
 {
     [Test]
     public void ShouldRenderText_WhenNonProcessing()
