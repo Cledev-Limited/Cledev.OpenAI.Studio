@@ -18,7 +18,7 @@ public class ChatPage : PageComponentBase
     {
         Request = new CreateChatCompletionRequest
         {
-            Model = ChatModel.Gpt35Turbo.ToStringModel(),
+            Model = ChatModel.Gpt_35_Turbo.ToStringModel(),
             N = 1,
             MaxTokens = 500,
             Stream = true,
