@@ -4,9 +4,6 @@ Blazor Server Playground for OpenAI using [Cledev.OpenAI](https://github.com/luc
 
 [![Main](https://github.com/lucabriguglia/Cledev.OpenAI.Playground/actions/workflows/main.yml/badge.svg)](https://github.com/lucabriguglia/Cledev.OpenAI.Playground/actions/workflows/main.yml)
 
-This project is going to serve as a base for **OpenAI Studio** _(OpenAIStudio.io)_, a new product I'm currently working on.
-With OpenAI Studio will be possible to easily fine-tuning and testing your models. For more info or to request custom implementations, please contact me on [LinkedIn](https://www.linkedin.com/in/lucabriguglia/).
-
 ## Screenshots
 
 ### Index
