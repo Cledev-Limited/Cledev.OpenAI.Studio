@@ -1,8 +1,8 @@
-# Cledev.OpenAI.Playground
+# Cledev.OpenAI.Studio
 
 Blazor Server Playground for OpenAI using [Cledev.OpenAI](https://github.com/lucabriguglia/Cledev.OpenAI) .NET SDK
 
-[![Main](https://github.com/lucabriguglia/Cledev.OpenAI.Playground/actions/workflows/main.yml/badge.svg)](https://github.com/lucabriguglia/Cledev.OpenAI.Playground/actions/workflows/main.yml)
+[![Main](https://github.com/lucabriguglia/Cledev.OpenAI.Studio/actions/workflows/main.yml/badge.svg)](https://github.com/lucabriguglia/Cledev.OpenAI.Studio/actions/workflows/main.yml)
 
 ## Screenshots
 
