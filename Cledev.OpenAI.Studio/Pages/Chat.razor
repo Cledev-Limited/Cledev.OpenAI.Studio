@@ -33,8 +33,8 @@
                 <div class="modal-header" style="background-color: #f7f7f7;">
                     <div class="row m-auto">
                         <div class="col-12">
-                            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasOptions" aria-controls="offcanvasOptions">Options</button>
-                            <button class="btn btn-outline-secondary btn-sm ms-2" type="button" @onclick="Reset">Reset</button>
+                            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasOptions" aria-controls="offcanvasOptions"><i class="fa-solid fa-gear"></i> Options</button>
+                            <button class="btn btn-outline-secondary btn-sm ms-2" type="button" @onclick="Reset"><i class="fa-solid fa-comment-slash"></i> Reset</button>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                                             }
                                             else
                                             {
-                                                @((MarkupString) message.Content)
+                                                @((MarkupString)message.Content)
                                             }
                                         </div>
                                     </div>
@@ -80,11 +80,15 @@
                         <InputText id="Prompt" placeholder="Message" @bind-Value="Prompt" class="form-control"/>
                         @if (IsProcessing)
                         {
-                            <button type="submit" class="btn btn-primary text-nowrap" disabled>Submit</button>
+                            <button type="submit" class="btn btn-primary text-nowrap" disabled>
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
                         }
                         else
                         {
-                            <button type="submit" class="btn btn-primary text-nowrap">Submit</button>
+                            <button type="submit" class="btn btn-primary text-nowrap">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
                         }
                     </div>
                 </div>
