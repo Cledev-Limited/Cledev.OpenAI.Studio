@@ -1,7 +1,70 @@
 ﻿@page "/fine-tuning"
 
+@inherits FineTuningPage
+
 <PageTitle>Fine-Tuning</PageTitle>
 
-<PageHeader Icon="fa-solid fa-screwdriver-wrench">Fine-Tuning</PageHeader>
+<PageHeader Icon="fa-solid fa-screwdriver-wrench">Fine-Tuning (Work In Progress)</PageHeader>
 
-Work In Progress
+<p class="mb-4">Manage fine-tuning jobs to tailor a model to your specific training data. Related guide: <a href="https://platform.openai.com/docs/guides/fine-tuning" title="Fine-tune models" target="_blank">Fine-tune models</a>.</p>
+
+@if (IsProcessing)
+{
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <span>Loading Fine-tunes...</span>
+}
+
+@if (Error is null && IsProcessing is false)
+{
+    <div class="row my-4">
+        <div class="col">
+            @if (FineTunes.Any())
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">&nbsp;</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Base Model</th>
+                            <th scope="col">Fine-tuned Model</th>
+                            @*<th scope="col">Organization</th>*@
+                            <th scope="col">Status</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Updated</th>
+                            @*<th scope="col">&nbsp;</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var index = 0; index < FineTunes.Count; index++)
+                        {
+                            var fineTune = FineTunes[index];
+                            <tr>
+                                <th scope="row" class="text-end">@(index + 1)</th>
+                                <td id="fineTune@(index + 1)Id">@fineTune.Id</td>
+                                <td>@fineTune.Model</td>
+                                <td>@fineTune.FineTunedModel</td>
+                                @*<td>@fineTune.OrganizationId</td>*@
+                                <td>@fineTune.Status</td>
+                                <td>@fineTune.CreatedAt.ToDateTime()</td>
+                                <td>@fineTune.UpdatedAt.ToDateTime(fineTune.CreatedAt)</td>
+                                @*<td class="text-center">
+                                    <a href="#" @onclick:preventDefault="true" @onclick="() => SetFileIdToDelete(fineTune.Id)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </a>
+                                </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-secondary" role="alert">
+                    No fine-tunes found
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<Error Model="Error"></Error>
