@@ -1,6 +1,6 @@
 # Cledev.OpenAI.Studio
 
-Blazor Server Playground for OpenAI using [Cledev.OpenAI](https://github.com/lucabriguglia/Cledev.OpenAI) .NET library
+Blazor Server playground for OpenAI using [Cledev.OpenAI](https://github.com/lucabriguglia/Cledev.OpenAI) .NET library
 
 [![Main](https://github.com/lucabriguglia/Cledev.OpenAI.Studio/actions/workflows/main.yml/badge.svg)](https://github.com/lucabriguglia/Cledev.OpenAI.Studio/actions/workflows/main.yml)
 
