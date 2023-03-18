@@ -10,7 +10,10 @@
 
 @if (IsProcessing)
 {
-    <div id="FineTunesLoading">
+    <button id="OpenCreateFineTuneModal" type="button" class="btn btn-primary" disabled>Create Fine-Tune</button>
+    <button id="RefreshList" type="button" class="btn btn-primary" disabled>Refresh</button>
+
+    <div id="FineTunesLoading" class="my-4">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         <span>Loading Fine-tunes...</span>
     </div>
@@ -19,6 +22,7 @@
 @if (Error is null && IsProcessing is false)
 {
     <button id="OpenCreateFineTuneModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateFineTuneModal" @onclick="FakeClick">Create Fine-Tune</button>
+    <button id="RefreshList" type="button" class="btn btn-primary" @onclick="LoadFineTunes">Refresh</button>
 
     <div class="row my-4">
         <div class="col">
