@@ -22,6 +22,8 @@ public class FineTuningPage : PageComponentBase
 
     protected override async Task OnInitializedAsync()
     {
+        IsProcessing = true;
+
         CreateFineTuneRequest = new CreateFineTuneRequest
         {
             Model = FineTuningModel.Curie.ToStringModel(),

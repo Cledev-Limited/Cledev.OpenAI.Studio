@@ -16,7 +16,7 @@
 
 @if (Error is null && IsProcessing is false)
 {
-    <button id="CreateFineTune" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateFineTuneModal" @onclick="FakeClick">Create Fine-Tune</button>
+    <button id="OpenCreateFineTuneModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateFineTuneModal" @onclick="FakeClick">Create Fine-Tune</button>
 
     <div class="row my-4">
         <div class="col">
@@ -99,14 +99,14 @@
                 <div class="modal-footer">
                     @if (IsCreating)
                     {
-                        <button class="btn btn-primary text-nowrap" type="button" disabled>
+                        <button id="CreateFineTune" class="btn btn-primary text-nowrap" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Creating Fine-Tune...
                         </button>
                     }
                     else
                     {
-                        <button type="submit" class="btn btn-primary">Create Fine-Tune</button>
+                        <button id="CreateFineTune" type="submit" class="btn btn-primary">Create Fine-Tune</button>
                     }
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
