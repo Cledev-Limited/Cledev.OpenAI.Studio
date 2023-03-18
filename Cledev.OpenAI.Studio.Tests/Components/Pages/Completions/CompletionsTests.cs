@@ -1,12 +1,11 @@
 ﻿using Bunit;
-using Cledev.OpenAI.Studio.Pages;
 using Cledev.OpenAI.V1.Contracts.Completions;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using Error = Cledev.OpenAI.V1.Contracts.Error;
 
-namespace Cledev.OpenAI.Studio.Tests.Components.Pages;
+namespace Cledev.OpenAI.Studio.Tests.Components.Pages.Completions;
 
 public class CompletionsTests : ComponentTestBase
 {
@@ -17,7 +16,7 @@ public class CompletionsTests : ComponentTestBase
             .Setup(x => x.CreateCompletion(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
             .ReturnsAsync(new CreateCompletionResponse { Error = new Error { Message = "Some Error Message" } });
 
-        var cut = RenderComponent<Completions>();
+        var cut = RenderComponent<Studio.Pages.Completions>();
 
         cut.Find("input[id=Stream]").Change(false);
         cut.Find("button").Click();
@@ -32,9 +31,9 @@ public class CompletionsTests : ComponentTestBase
     {
         OpenAIClient
             .Setup(x => x.CreateCompletion(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
-            .ReturnsAsync(new CreateCompletionResponse { Choices = new List<CompletionChoice> { new() { Text = "Completion Text" } }});
+            .ReturnsAsync(new CreateCompletionResponse { Choices = new List<CompletionChoice> { new() { Text = "Completion Text" } } });
 
-        var cut = RenderComponent<Completions>();
+        var cut = RenderComponent<Studio.Pages.Completions>();
 
         cut.Find("input[id=Stream]").Change(false);
         cut.Find("button").Click();
@@ -51,7 +50,7 @@ public class CompletionsTests : ComponentTestBase
             .Setup(x => x.CreateCompletion(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
             .ReturnsAsync(new CreateCompletionResponse { Choices = new List<CompletionChoice> { new() { Text = "Completion Text" } } });
 
-        var cut = RenderComponent<Completions>();
+        var cut = RenderComponent<Studio.Pages.Completions>();
 
         cut.Find("input[id=Stream]").Change(false);
         cut.Find("button").Click();

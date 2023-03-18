@@ -16,6 +16,8 @@
 
 @if (Error is null && IsProcessing is false)
 {
+    <button id="CreateFineTune" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateFineTuneModal" @onclick="FakeClick">Create Fine-Tune</button>
+
     <div class="row my-4">
         <div class="col">
             @if (FineTunes.Any())
@@ -68,3 +70,47 @@
 }
 
 <Error Model="Error"></Error>
+
+<EditForm Model="CreateFineTuneRequest" OnValidSubmit="OnSubmitAsync">
+    <div class="modal fade" id="CreateFineTuneModal" tabindex="-1" aria-labelledby="CreateFineTuneModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CreateFineTuneModalLabel">Create Fine-Tune</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <FormLabel InputId="Model" InColumn="true" Tooltip="">Model</FormLabel>
+                        <div class="col-sm">
+                            <InputSelect id="Model" @bind-Value="CreateFineTuneRequest.Model" class="form-select">
+                                @foreach (var item in FineTuningModels)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+
+                    OTHER INPUTS HERE
+
+                    <Error Model="CreateError"></Error>
+                </div>
+                <div class="modal-footer">
+                    @if (IsCreating)
+                    {
+                        <button class="btn btn-primary text-nowrap" type="button" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Creating Fine-Tune...
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary">Create Fine-Tune</button>
+                    }
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>

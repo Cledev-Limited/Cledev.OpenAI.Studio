@@ -41,4 +41,9 @@ public abstract class PageComponentBase : ComponentBase
 
         return memoryStream.ToArray();
     }
+
+    protected void FakeClick()
+    {
+        // For Bunit tests
+    }
 }

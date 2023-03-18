@@ -1,52 +1,57 @@
-﻿using Cledev.OpenAI.V1.Contracts.FineTunes;
+﻿using Cledev.OpenAI.V1.Contracts;
+using Cledev.OpenAI.V1.Contracts.FineTunes;
+using Cledev.OpenAI.V1.Helpers;
+using Microsoft.JSInterop;
 
 namespace Cledev.OpenAI.Studio.Pages;
 
 public class FineTuningPage : PageComponentBase
 {
-    //public UploadFileRequest UploadFileRequest { get; set; } = null!;
+    protected CreateFineTuneRequest CreateFineTuneRequest { get; set; } = null!;
+    public IList<string> ExistingFiles { get; set; } = new List<string>();
+    public IList<string> FineTuningModels { get; set; } = new List<string>();
 
     public List<FineTuneResponse> FineTunes { get; set; } = new();
-    //public string? FileIdToDelete { get; set; }
+    
+    public bool IsCreating { get; set; }
+    protected Error? CreateError { get; set; }
 
-    //public bool IsUploading { get; set; }
-    //protected Error? UploadError { get; set; }
-
+    //public string? FineTuneModelIdToDelete { get; set; }
     //public bool IsDeleting { get; set; }
     //protected Error? DeleteError { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        //UploadFileRequest = new UploadFileRequest
-        //{
-        //    File = new byte[1],
-        //    FileName = "Something",
-        //    Purpose = "fine-tune"
-        //};
+        CreateFineTuneRequest = new CreateFineTuneRequest
+        {
+            Model = FineTuningModel.Curie.ToStringModel(),
+            TrainingFile = string.Empty
+        };
+
+        FineTuningModels = Enum.GetValues(typeof(FineTuningModel)).Cast<FineTuningModel>().Select(x => x.ToStringModel()).ToList();
+
+        var files = await OpenAIClient.ListFiles();
+        ExistingFiles = files is not null ? files.Data.Select(file => file.Id).ToList() : new List<string>();
+
+        CreateFineTuneRequest.TrainingFile = ExistingFiles.Any() ? ExistingFiles.First() : string.Empty;
 
         await LoadFineTunes();
     }
 
-    //public async Task OnInputFileChange(InputFileChangeEventArgs e)
-    //{
-    //    UploadFileRequest.File = await GetFileBytes(e);
-    //    UploadFileRequest.FileName = e.File.Name;
-    //}
+    protected async Task OnSubmitAsync()
+    {
+        IsCreating = true;
 
-    //protected async Task OnSubmitAsync()
-    //{
-    //    IsUploading = true;
+        var response = await OpenAIClient.CreateFineTune(CreateFineTuneRequest);
+        CreateError = response?.Error;
+        if (CreateError is null)
+        {
+            await JsRuntime.InvokeVoidAsync("toggleModal", "CreateFineTuneModal");
+            await LoadFineTunes();
+        }
 
-    //    var response = await OpenAIClient.UploadFile(UploadFileRequest);
-    //    UploadError = response?.Error;
-    //    if (UploadError is null)
-    //    {
-    //        await JsRuntime.InvokeVoidAsync("toggleModal", "uploadModal");
-    //        await LoadFineTunes();
-    //    }
-
-    //    IsUploading = false;
-    //}
+        IsCreating = false;
+    }
 
     protected async Task LoadFineTunes()
     {
@@ -65,16 +70,16 @@ public class FineTuningPage : PageComponentBase
         IsProcessing = false;
     }
 
-    //protected void SetFileIdToDelete(string fileIdToDelete)
+    //protected void SetFineTuneModelIdToDelete(string fineTuneModelIdToDelete)
     //{
-    //    FileIdToDelete = fileIdToDelete;
+    //    FineTuneModelIdToDelete = fineTuneModelIdToDelete;
     //}
 
-    //protected async Task DeleteFile()
+    //protected async Task DeleteFineTuneModel()
     //{
     //    IsDeleting = true;
 
-    //    var deleteFileResponse = await OpenAIClient.DeleteFile(FileIdToDelete!);
+    //    var deleteFileResponse = await OpenAIClient.DeleteFineTune(FineTuneModelIdToDelete!);
     //    DeleteError = deleteFileResponse?.Error;
     //    if (DeleteError is null)
     //    {

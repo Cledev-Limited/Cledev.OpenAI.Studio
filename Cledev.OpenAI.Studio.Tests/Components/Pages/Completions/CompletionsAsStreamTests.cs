@@ -1,12 +1,11 @@
 ﻿using Bunit;
-using Cledev.OpenAI.Studio.Pages;
 using Cledev.OpenAI.V1.Contracts.Completions;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using Error = Cledev.OpenAI.V1.Contracts.Error;
 
-namespace Cledev.OpenAI.Studio.Tests.Components.Pages;
+namespace Cledev.OpenAI.Studio.Tests.Components.Pages.Completions;
 
 public class CompletionsAsStreamTests : ComponentTestBase
 {
@@ -23,7 +22,7 @@ public class CompletionsAsStreamTests : ComponentTestBase
             .Setup(x => x.CreateCompletionAsStream(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
             .Returns(GetResponses);
 
-        var cut = RenderComponent<Completions>();
+        var cut = RenderComponent<Studio.Pages.Completions>();
 
         cut.Find("button").Click();
 
@@ -45,7 +44,7 @@ public class CompletionsAsStreamTests : ComponentTestBase
             .Setup(x => x.CreateCompletionAsStream(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
             .Returns(GetResponses);
 
-        var cut = RenderComponent<Completions>();
+        var cut = RenderComponent<Studio.Pages.Completions>();
 
         cut.Find("button").Click();
 
@@ -67,7 +66,7 @@ public class CompletionsAsStreamTests : ComponentTestBase
             .Setup(x => x.CreateCompletionAsStream(It.IsAny<CreateCompletionRequest>(), CancellationToken.None))
             .Returns(GetResponses);
 
-        var cut = RenderComponent<Completions>();
+        var cut = RenderComponent<Studio.Pages.Completions>();
 
         cut.Find("button").Click();
 
