@@ -10,8 +10,10 @@
 
 @if (IsProcessing)
 {
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    <span>Loading Fine-tunes...</span>
+    <div id="FineTunesLoading">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span>Loading Fine-tunes...</span>
+    </div>
 }
 
 @if (Error is null && IsProcessing is false)
