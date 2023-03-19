@@ -46,7 +46,7 @@
                             <td>@file.CreatedAt.ToDateTime()</td>
                             <td>@file.Purpose</td>
                             <td class="text-center">
-                                <a href="#" @onclick:preventDefault="true" @onclick="() => SetFileIdToDelete(file.Id)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <a title="Delete File" href="#" @onclick:preventDefault="true" @onclick="() => SetFileIdToDelete(file.Id)" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     <i class="fa-regular fa-trash-can"></i>
                                 </a>
                             </td>

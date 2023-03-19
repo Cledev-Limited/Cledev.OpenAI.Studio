@@ -56,13 +56,13 @@
                                 <td class="text-center">
                                     @if (fineTune.Status == "succeeded")
                                     {
-                                        <a id="OpenDeleteFineTuneModal" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(fineTune.FineTunedModel!)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
+                                        <a id="OpenDeleteFineTuneModal" title="Delete Fine-Tuned Model" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(fineTune.FineTunedModel!)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
                                             <i class="fa-regular fa-trash-can"></i>
                                         </a>
                                     }
                                     else if (fineTune.Status is "running" or "pending")
                                     {
-                                        <a id="OpenCancelFineTuneJobModal" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneIdToCancel(fineTune.Id)" data-bs-toggle="modal" data-bs-target="#CancelFineTuneJobModal">
+                                        <a id="OpenCancelFineTuneJobModal" title="Cancel Job" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneIdToCancel(fineTune.Id)" data-bs-toggle="modal" data-bs-target="#CancelFineTuneJobModal">
                                             <i class="fa-solid fa-xmark"></i>
                                         </a>
                                     }
