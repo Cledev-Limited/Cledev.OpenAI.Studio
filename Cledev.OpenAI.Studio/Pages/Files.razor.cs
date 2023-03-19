@@ -70,11 +70,13 @@ public class FilesPage : PageComponentBase
 
     protected void SetFileIdToDelete(string fileIdToDelete)
     {
+        DeleteError = null;
         FileIdToDelete = fileIdToDelete;
     }
 
     protected async Task DeleteFile()
     {
+        DeleteError = null;
         IsDeleting = true;
 
         var deleteFileResponse = await OpenAIClient.DeleteFile(FileIdToDelete!);

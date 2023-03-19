@@ -74,11 +74,13 @@ public class FineTuningPage : PageComponentBase
 
     protected void SetFineTuneModelToDelete(string fineTuneModelToDelete)
     {
+        DeleteError = null;
         FineTuneModelToDelete = fineTuneModelToDelete;
     }
 
     protected async Task DeleteFineTuneModel()
     {
+        DeleteError = null;
         IsDeleting = true;
 
         var deleteFileResponse = await OpenAIClient.DeleteFineTune(FineTuneModelToDelete!);
