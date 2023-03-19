@@ -54,9 +54,16 @@
                                 <td>@fineTune.CreatedAt.ToDateTime()</td>
                                 <td>@fineTune.UpdatedAt.ToDateTime(fineTune.CreatedAt)</td>
                                 <td class="text-center">
-                                    <a id="OpenDeleteFineTuneModal" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(fineTune.FineTunedModel!)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
-                                        <i class="fa-regular fa-trash-can"></i>
-                                    </a>
+                                    @if (string.IsNullOrEmpty(fineTune.FineTunedModel) is false)
+                                    {
+                                        <a id="OpenDeleteFineTuneModal" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(fineTune.FineTunedModel!)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <literal>&nbsp;</literal>
+                                    }
                                 </td>
                             </tr>
                         }

@@ -66,7 +66,7 @@ public class FineTuningPage : PageComponentBase
         Error = response?.Error;
         if (response is not null)
         {
-            FineTunes.AddRange(response.Data);
+            FineTunes.AddRange(response.Data.OrderBy(fineTuneResponse => fineTuneResponse.CreatedAt));
         }
 
         IsProcessing = false;

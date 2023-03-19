@@ -43,7 +43,7 @@
                             <td>@file.Id</td>
                             <td>@file.FileName</td>
                             <td class="text-end">@file.Bytes</td>
-                            <td>@file.CreatedAt</td>
+                            <td>@file.CreatedAt.ToDateTime()</td>
                             <td>@file.Purpose</td>
                             <td class="text-center">
                                 <a href="#" @onclick:preventDefault="true" @onclick="() => SetFileIdToDelete(file.Id)" data-bs-toggle="modal" data-bs-target="#deleteModal">
