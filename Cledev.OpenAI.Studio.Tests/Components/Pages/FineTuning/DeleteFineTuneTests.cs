@@ -1,6 +1,5 @@
 ﻿using Bunit;
 using Cledev.OpenAI.V1.Contracts.FineTunes;
-using FluentAssertions.Execution;
 using Moq;
 using NUnit.Framework;
 
@@ -9,7 +8,7 @@ namespace Cledev.OpenAI.Studio.Tests.Components.Pages.FineTuning;
 public class DeleteFineTuneTests : ComponentTestBase
 {
     [Test]
-    public void GivenDeleteFineTuneButtonClicked_WhenAPIReturnsAValidResponse_ThenModalIsClosedAndAPIIsCalledToGetNewList()
+    public void GivenFineTuneIsDeleted_WhenAPIReturnsAValidResponse_ThenDeleteModalIsClosed()
     {
         OpenAIClient
             .Setup(x => x.DeleteFineTune("fine-tune-model-1", CancellationToken.None))
@@ -17,7 +16,7 @@ public class DeleteFineTuneTests : ComponentTestBase
 
         OpenAIClient
             .Setup(x => x.ListFineTunes(CancellationToken.None))
-            .ReturnsAsync(new ListFineTunesResponse { Data = new List<FineTuneResponse> { new() { Id = "Id1", Model = "BaseModel", FineTunedModel = "fine-tune-model-1" } } });
+            .ReturnsAsync(new ListFineTunesResponse { Data = new List<FineTuneResponse> { new() { Id = "Id1", Model = "BaseModel", FineTunedModel = "fine-tune-model-1", Status = "succeeded" } } });
 
         JSInterop.SetupVoid("toggleModal", "DeleteFineTuneModal");
 

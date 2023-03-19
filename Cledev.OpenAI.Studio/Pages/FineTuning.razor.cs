@@ -20,6 +20,10 @@ public class FineTuningPage : PageComponentBase
     public bool IsDeleting { get; set; }
     protected Error? DeleteError { get; set; }
 
+    public string? FineTuneIdToCancel { get; set; }
+    public bool IsCancelling { get; set; }
+    protected Error? CancelError { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         IsProcessing = true;
@@ -83,8 +87,8 @@ public class FineTuningPage : PageComponentBase
         DeleteError = null;
         IsDeleting = true;
 
-        var deleteFileResponse = await OpenAIClient.DeleteFineTune(FineTuneModelToDelete!);
-        DeleteError = deleteFileResponse?.Error;
+        var deleteFineTuneResponse = await OpenAIClient.DeleteFineTune(FineTuneModelToDelete!);
+        DeleteError = deleteFineTuneResponse?.Error;
         if (DeleteError is null)
         {
             await JsRuntime.InvokeVoidAsync("toggleModal", "DeleteFineTuneModal");
@@ -92,5 +96,27 @@ public class FineTuningPage : PageComponentBase
         }
 
         IsDeleting = false;
+    }
+
+    protected void SetFineTuneIdToCancel(string fineTuneIdToCancel)
+    {
+        CancelError = null;
+        FineTuneIdToCancel = fineTuneIdToCancel;
+    }
+
+    protected async Task CancelFineTuneJob()
+    {
+        CancelError = null;
+        IsCancelling = true;
+
+        var fineTuneResponse = await OpenAIClient.CancelFineTune(FineTuneIdToCancel!);
+        CancelError = fineTuneResponse?.Error;
+        if (CancelError is null)
+        {
+            await JsRuntime.InvokeVoidAsync("toggleModal", "CancelFineTuneJobModal");
+            await LoadFineTunes();
+        }
+
+        IsCancelling = false;
     }
 }

@@ -54,13 +54,19 @@
                                 <td>@fineTune.CreatedAt.ToDateTime()</td>
                                 <td>@fineTune.UpdatedAt.ToDateTime(fineTune.CreatedAt)</td>
                                 <td class="text-center">
-                                    @if (string.IsNullOrEmpty(fineTune.FineTunedModel) is false)
+                                    @if (fineTune.Status == "succeeded")
                                     {
                                         <a id="OpenDeleteFineTuneModal" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(fineTune.FineTunedModel!)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
                                             <i class="fa-regular fa-trash-can"></i>
                                         </a>
                                     }
-                                    else
+                                    else if (fineTune.Status is "running" or "pending")
+                                    {
+                                        <a id="OpenCancelFineTuneJobModal" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneIdToCancel(fineTune.Id)" data-bs-toggle="modal" data-bs-target="#CancelFineTuneJobModal">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </a>
+                                    }
+                                    else if (fineTune.Status is "cancelled")
                                     {
                                         <literal>&nbsp;</literal>
                                     }
@@ -148,6 +154,35 @@
                 else
                 {
                     <button id="DeleteFineTune" type="submit" class="btn btn-danger" @onclick="async () => await DeleteFineTuneModel()">Delete</button>
+                }
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CancelFineTuneJobModal" tabindex="-1" aria-labelledby="CancelFineTuneJobLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CancelFineTuneJobLabel">Cancel Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel the job for <span class="fw-bold">@FineTuneIdToCancel</span>?
+                <Error Model="CancelError"></Error>
+            </div>
+            <div class="modal-footer">
+                @if (IsCancelling)
+                {
+                    <button class="btn btn-warning text-nowrap" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Cancelling Fine-Tune Job...
+                    </button>
+                }
+                else
+                {
+                    <button id="CancelFineTuneJob" type="submit" class="btn btn-warning" @onclick="async () => await CancelFineTuneJob()">Cancel</button>
                 }
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
