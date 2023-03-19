@@ -11,7 +11,7 @@
 @if (IsProcessing)
 {
     <button id="OpenCreateFineTuneModal" type="button" class="btn btn-primary" disabled>Create Fine-Tune</button>
-    <button id="RefreshList" type="button" class="btn btn-primary" disabled>Refresh</button>
+    <button id="RefreshList" type="button" class="btn btn-primary" disabled>Refresh List</button>
 
     <div id="FineTunesLoading" class="my-4">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -22,7 +22,7 @@
 @if (Error is null && IsProcessing is false)
 {
     <button id="OpenCreateFineTuneModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateFineTuneModal" @onclick="FakeClick">Create Fine-Tune</button>
-    <button id="RefreshList" type="button" class="btn btn-primary" @onclick="LoadFineTunes">Refresh</button>
+    <button id="RefreshList" type="button" class="btn btn-primary" @onclick="LoadFineTunes">Refresh List</button>
 
     <div class="row my-4">
         <div class="col">
@@ -35,11 +35,10 @@
                             <th scope="col">Id</th>
                             <th scope="col">Base Model</th>
                             <th scope="col">Fine-tuned Model</th>
-                            @*<th scope="col">Organization</th>*@
                             <th scope="col">Status</th>
                             <th scope="col">Created</th>
                             <th scope="col">Updated</th>
-                            @*<th scope="col">&nbsp;</th>*@
+                            <th scope="col">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,15 +50,14 @@
                                 <td id="fineTune@(index + 1)Id">@fineTune.Id</td>
                                 <td>@fineTune.Model</td>
                                 <td>@fineTune.FineTunedModel</td>
-                                @*<td>@fineTune.OrganizationId</td>*@
                                 <td>@fineTune.Status</td>
                                 <td>@fineTune.CreatedAt.ToDateTime()</td>
                                 <td>@fineTune.UpdatedAt.ToDateTime(fineTune.CreatedAt)</td>
-                                @*<td class="text-center">
-                                    <a href="#" @onclick:preventDefault="true" @onclick="() => SetFileIdToDelete(fineTune.Id)" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <td class="text-center">
+                                    <a id="OpenDeleteFineTuneModal" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(fineTune.FineTunedModel!)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
                                         <i class="fa-regular fa-trash-can"></i>
                                     </a>
-                                </td>*@
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -120,3 +118,32 @@
         </div>
     </div>
 </EditForm>
+
+<div class="modal fade" id="DeleteFineTuneModal" tabindex="-1" aria-labelledby="DeleteFineTuneModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DeleteFineTuneModalLabel">Delete Fine-Tune</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <span class="fw-bold">@FineTuneModelToDelete</span>?
+                <Error Model="DeleteError"></Error>
+            </div>
+            <div class="modal-footer">
+                @if (IsDeleting)
+                {
+                    <button class="btn btn-danger text-nowrap" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Deleting Fine-Tune Model...
+                    </button>
+                }
+                else
+                {
+                    <button id="DeleteFineTune" type="submit" class="btn btn-danger" @onclick="async () => await DeleteFineTuneModel()">Delete</button>
+                }
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
