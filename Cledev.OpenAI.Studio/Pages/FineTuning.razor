@@ -90,7 +90,7 @@
 
 <EditForm Model="CreateFineTuneRequest" OnValidSubmit="OnSubmitAsync">
     <div class="modal fade" id="CreateFineTuneModal" tabindex="-1" aria-labelledby="CreateFineTuneModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="CreateFineTuneModalLabel">Create Fine-Tune</h5>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
-                        <FormLabel InputId="Model" InColumn="true" Tooltip="">Model</FormLabel>
+                        <FormLabel InputId="Model" InColumn="true" Tooltip="">Base Model</FormLabel>
                         <div class="col-sm">
                             <InputSelect id="Model" @bind-Value="CreateFineTuneRequest.Model" class="form-select">
                                 @foreach (var item in FineTuningModels)

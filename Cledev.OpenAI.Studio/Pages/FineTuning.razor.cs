@@ -9,7 +9,7 @@ public class FineTuningPage : PageComponentBase
 {
     protected CreateFineTuneRequest CreateFineTuneRequest { get; set; } = null!;
     public IList<string> ExistingFiles { get; set; } = new List<string>();
-    public IList<string> FineTuningModels { get; set; } = new List<string>();
+    public List<string> FineTuningModels { get; set; } = new();
 
     public List<FineTuneResponse> FineTunes { get; set; } = new();
     
@@ -33,8 +33,6 @@ public class FineTuningPage : PageComponentBase
             Model = FineTuningModel.Curie.ToStringModel(),
             TrainingFile = string.Empty
         };
-
-        FineTuningModels = Enum.GetValues(typeof(FineTuningModel)).Cast<FineTuningModel>().Select(x => x.ToStringModel()).ToList();
 
         var files = await OpenAIClient.ListFiles();
         ExistingFiles = files is not null ? files.Data.Select(file => file.Id).ToList() : new List<string>();
@@ -62,15 +60,21 @@ public class FineTuningPage : PageComponentBase
     protected async Task LoadFineTunes()
     {
         IsProcessing = true;
+
         FineTunes.Clear();
+        FineTuningModels.Clear();
 
         StateHasChanged();
 
         var response = await OpenAIClient.ListFineTunes();
         Error = response?.Error;
+
+        FineTuningModels = Enum.GetValues(typeof(FineTuningModel)).Cast<FineTuningModel>().Select(x => x.ToStringModel()).ToList();
+
         if (response is not null)
         {
             FineTunes.AddRange(response.Data.OrderBy(fineTuneResponse => fineTuneResponse.CreatedAt));
+            FineTuningModels.AddRange(response.Data.ToActiveFineTuneModels());
         }
 
         IsProcessing = false;
@@ -118,5 +122,35 @@ public class FineTuningPage : PageComponentBase
         }
 
         IsCancelling = false;
+    }
+
+    protected static class Tooltips
+    {
+        public static string Model = "";
+        public static string TrainingFile = "";
+        public static string ValidationFile = "";
+        public static string NEpochs = "";
+        public static string BatchSize = "";
+        public static string LearningRateMultiplier = "";
+        public static string PromptLossWeight = "";
+        public static string ComputeClassificationMetrics = "";
+        public static string ClassificationNClasses = "";
+        public static string ClassificationPositiveClass = "";
+        public static string ClassificationBetas = "";
+        public static string Suffix = "";
+    }
+}
+
+public static class FineTuneResponseExtensions
+{
+    public static List<string> ToActiveFineTuneModels(this IEnumerable<FineTuneResponse> data)
+    {
+        return data
+            .Where(fineTuneResponse => 
+                string.IsNullOrEmpty(fineTuneResponse.FineTunedModel) is false &&
+                fineTuneResponse.Status == "succeeded")
+            .OrderBy(fineTuneResponse => fineTuneResponse.CreatedAt)
+            .Select(fineTuneResponse => fineTuneResponse.FineTunedModel!)
+            .ToList();
     }
 }
