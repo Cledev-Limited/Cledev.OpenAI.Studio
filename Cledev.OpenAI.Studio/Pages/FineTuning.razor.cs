@@ -9,6 +9,7 @@ namespace Cledev.OpenAI.Studio.Pages;
 public class FineTuningPage : PageComponentBase
 {
     protected CreateFineTuneRequest CreateFineTuneRequest { get; set; } = null!;
+    protected string? ClassificationBeta { get; set; }
 
     public IList<FineTuneFile> ExistingFiles { get; set; } = new List<FineTuneFile>();
     public List<string> FineTuningModels { get; set; } = new();
@@ -40,7 +41,8 @@ public class FineTuningPage : PageComponentBase
             Model = FineTuningModel.Curie.ToStringModel(),
             TrainingFile = string.Empty,
             NEpochs = 4,
-            PromptLossWeight = 0.01f
+            PromptLossWeight = 0.01f,
+            ClassificationBetas = new List<string>()
         };
 
         var files = await OpenAIClient.ListFiles();
@@ -54,6 +56,7 @@ public class FineTuningPage : PageComponentBase
     protected async Task OnSubmitAsync()
     {
         IsCreating = true;
+        CreateError = null;
 
         var response = await OpenAIClient.CreateFineTune(CreateFineTuneRequest);
         CreateError = response?.Error;
@@ -155,6 +158,23 @@ public class FineTuningPage : PageComponentBase
         }
 
         IsCancelling = false;
+    }
+
+    protected void AddClassificationBeta()
+    {
+        if (ClassificationBeta is not null)
+        {
+            CreateFineTuneRequest.ClassificationBetas!.Add(ClassificationBeta);
+            ClassificationBeta = null;
+        }
+    }
+
+    protected void RemoveClassificationBeta(string classificationBeta)
+    {
+        if (CreateFineTuneRequest.ClassificationBetas!.FirstOrDefault(cb => cb == classificationBeta) is not null)
+        {
+            CreateFineTuneRequest.ClassificationBetas!.Remove(classificationBeta);
+        }
     }
 
     protected static class Tooltips

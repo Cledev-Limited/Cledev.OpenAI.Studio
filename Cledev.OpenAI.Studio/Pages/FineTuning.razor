@@ -196,12 +196,26 @@
                         </div>
                     </div>
 
-                    @*<div class="row mb-3">
-                        <FormLabel InputId="ClassificationBetas" InColumn="true" Tooltip="@Tooltips.ClassificationBetas">ClassificationBetas</FormLabel>
+                    <div class="row mb-3">
+                        <FormLabel InputId="ClassificationBetas" InColumn="true" Tooltip="@Tooltips.ClassificationBetas">Classification Betas</FormLabel>
                         <div class="col-sm">
-                            <InputText id="ClassificationBetas" @bind-Value="CreateFineTuneRequest.ClassificationBetas" class="form-control" />
+                            @foreach (var classificationBeta in CreateFineTuneRequest.ClassificationBetas!)
+                            {
+                                <div class="mb-1">
+                                    <span class="me-2">@classificationBeta</span>
+                                    <a href="#" @onclick:preventDefault="true" @onclick="() => RemoveClassificationBeta(classificationBeta)">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </a>
+                                </div>
+                            }
+                            <div class="input-group">
+                                <input type="text" id="ClassificationBeta" placeholder="Add Value" @bind="ClassificationBeta" class="form-control" />
+                                <button type="submit" class="btn btn-primary text-nowrap" @onclick:preventDefault="true" @onclick="AddClassificationBeta">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>*@
+                    </div>
 
                     <Error Model="CreateError"></Error>
                 </div>
