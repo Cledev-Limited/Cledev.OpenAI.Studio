@@ -54,16 +54,25 @@ else
                     <th scope="col">&nbsp;</th>
                     <th scope="col">Id</th>
                     <th scope="col">OwnedBy</th>
+                    <th scope="col">&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
                 @for (var index = 0; index < Models.Count; index++)
                 {
-                        var model = Models[index];
+                    var model = Models[index];
                     <tr>
                         <th scope="row" class="text-end">@(index + 1)</th>
                         <td>@model.Id</td>
                         <td>@model.OwnedBy</td>
+                        <td>
+                            @if (model.OwnedBy == StudioSettings.Value.OrganizationName)
+                            {
+                                <a id="OpenDeleteFineTuneModal" title="Delete Fine-Tuned Model" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(model.Id)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            }
+                        </td>
                     </tr>
                 }
                 </tbody>
@@ -73,3 +82,32 @@ else
 }
 
 <Error Model="Error"></Error>
+
+<div class="modal fade" id="DeleteFineTuneModal" tabindex="-1" aria-labelledby="DeleteFineTuneModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DeleteFineTuneModalLabel">Delete Fine-Tune</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <span class="fw-bold">@FineTuneModelToDelete</span>?
+                <Error Model="DeleteError"></Error>
+            </div>
+            <div class="modal-footer">
+                @if (IsDeleting)
+                {
+                    <button class="btn btn-danger text-nowrap" type="button" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Deleting Fine-Tune Model...
+                    </button>
+                }
+                else
+                {
+                    <button id="DeleteFineTune" type="submit" class="btn btn-danger" @onclick="async () => await DeleteFineTuneModel()">Delete</button>
+                }
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

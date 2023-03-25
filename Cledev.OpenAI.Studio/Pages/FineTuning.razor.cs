@@ -21,10 +21,6 @@ public class FineTuningPage : PageComponentBase
     public bool IsCreating { get; set; }
     protected Error? CreateError { get; set; }
 
-    public string? FineTuneModelToDelete { get; set; }
-    public bool IsDeleting { get; set; }
-    protected Error? DeleteError { get; set; }
-
     public string? FineTuneIdToCancel { get; set; }
     public bool IsCancelling { get; set; }
     protected Error? CancelError { get; set; }
@@ -118,28 +114,6 @@ public class FineTuningPage : PageComponentBase
         InfoError = ListFineTuneEventsResponse?.Error;
         
         IsInfoLoading = false;
-    }
-
-    protected void SetFineTuneModelToDelete(string fineTuneModelToDelete)
-    {
-        DeleteError = null;
-        FineTuneModelToDelete = fineTuneModelToDelete;
-    }
-
-    protected async Task DeleteFineTuneModel()
-    {
-        DeleteError = null;
-        IsDeleting = true;
-
-        var deleteFineTuneResponse = await OpenAIClient.DeleteFineTune(FineTuneModelToDelete!);
-        DeleteError = deleteFineTuneResponse?.Error;
-        if (DeleteError is null)
-        {
-            await JsRuntime.InvokeVoidAsync("toggleModal", "DeleteFineTuneModal");
-            await LoadFineTunes();
-        }
-
-        IsDeleting = false;
     }
 
     protected void SetFineTuneIdToCancel(string fineTuneIdToCancel)

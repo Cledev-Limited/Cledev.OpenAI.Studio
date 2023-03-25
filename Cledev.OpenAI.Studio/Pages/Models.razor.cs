@@ -1,5 +1,7 @@
-﻿using Cledev.OpenAI.V1.Contracts.Models;
+﻿using Cledev.OpenAI.V1.Contracts;
+using Cledev.OpenAI.V1.Contracts.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Cledev.OpenAI.Studio.Pages;
 
@@ -10,12 +12,21 @@ public class ModelsPage : PageComponentBase
 
     public List<ModelResponse> Models { get; set; } = new();
 
+    public string? FineTuneModelToDelete { get; set; }
+    public bool IsDeleting { get; set; }
+    protected Error? DeleteError { get; set; }
+
     protected void OnValueChanged(ChangeEventArgs e)
     {
         ModelId = e.Value?.ToString();
     }
 
     protected async Task OnSubmitAsync()
+    {
+        await LoadModels();
+    }
+
+    private async Task LoadModels()
     {
         IsProcessing = true;
         SearchCompleted = false;
@@ -42,6 +53,28 @@ public class ModelsPage : PageComponentBase
 
         IsProcessing = false;
         SearchCompleted = true;
+    }
+
+    protected void SetFineTuneModelToDelete(string fineTuneModelToDelete)
+    {
+        DeleteError = null;
+        FineTuneModelToDelete = fineTuneModelToDelete;
+    }
+
+    protected async Task DeleteFineTuneModel()
+    {
+        DeleteError = null;
+        IsDeleting = true;
+
+        var deleteFineTuneResponse = await OpenAIClient.DeleteFineTune(FineTuneModelToDelete!);
+        DeleteError = deleteFineTuneResponse?.Error;
+        if (DeleteError is null)
+        {
+            await JsRuntime.InvokeVoidAsync("toggleModal", "DeleteFineTuneModal");
+            await LoadModels();
+        }
+
+        IsDeleting = false;
     }
 
     protected static class Tooltips
