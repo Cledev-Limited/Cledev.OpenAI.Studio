@@ -1,5 +1,4 @@
-﻿using Cledev.OpenAI.Studio.Extensions;
-using Cledev.OpenAI.V1.Contracts;
+﻿using Cledev.OpenAI.V1.Contracts;
 using Cledev.OpenAI.V1.Contracts.Files;
 using Cledev.OpenAI.V1.Contracts.FineTunes;
 using Cledev.OpenAI.V1.Helpers;
@@ -42,8 +41,7 @@ public class FineTuningPage : PageComponentBase
             Model = FineTuningModel.Curie.ToStringModel(),
             TrainingFile = string.Empty,
             NEpochs = 4,
-            PromptLossWeight = 0.01f,
-            ClassificationBetas = new List<string>()
+            PromptLossWeight = 0.01f
         };
 
         var files = await OpenAIClient.ListFiles();
@@ -168,18 +166,28 @@ public class FineTuningPage : PageComponentBase
 
     protected void AddClassificationBeta()
     {
-        if (ClassificationBeta is not null)
+        if (ClassificationBeta is null)
         {
-            CreateFineTuneRequest.ClassificationBetas!.Add(ClassificationBeta);
-            ClassificationBeta = null;
+            return;
         }
+
+        CreateFineTuneRequest.ClassificationBetas ??= new List<string>();
+        CreateFineTuneRequest.ClassificationBetas!.Add(ClassificationBeta);
+        ClassificationBeta = null;
     }
 
     protected void RemoveClassificationBeta(string classificationBeta)
     {
-        if (CreateFineTuneRequest.ClassificationBetas!.FirstOrDefault(cb => cb == classificationBeta) is not null)
+        if (CreateFineTuneRequest.ClassificationBetas!.FirstOrDefault(cb => cb == classificationBeta) is null)
         {
-            CreateFineTuneRequest.ClassificationBetas!.Remove(classificationBeta);
+            return;
+        }
+
+        CreateFineTuneRequest.ClassificationBetas!.Remove(classificationBeta);
+
+        if (CreateFineTuneRequest.ClassificationBetas.Any() is false)
+        {
+            CreateFineTuneRequest.ClassificationBetas = null;
         }
     }
 
