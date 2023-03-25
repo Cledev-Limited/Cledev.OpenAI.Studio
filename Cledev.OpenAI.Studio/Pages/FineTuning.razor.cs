@@ -9,11 +9,14 @@ namespace Cledev.OpenAI.Studio.Pages;
 public class FineTuningPage : PageComponentBase
 {
     protected CreateFineTuneRequest CreateFineTuneRequest { get; set; } = null!;
+
     public IList<FineTuneFile> ExistingFiles { get; set; } = new List<FineTuneFile>();
     public List<string> FineTuningModels { get; set; } = new();
 
     public List<FineTuneResponse> FineTunes { get; set; } = new();
-    
+    public FineTuneResponse? FineTuneResponse { get; set; }
+    public ListFineTuneEventsResponse? ListFineTuneEventsResponse { get; set; }
+
     public bool IsCreating { get; set; }
     protected Error? CreateError { get; set; }
 
@@ -24,6 +27,9 @@ public class FineTuningPage : PageComponentBase
     public string? FineTuneIdToCancel { get; set; }
     public bool IsCancelling { get; set; }
     protected Error? CancelError { get; set; }
+
+    public bool IsInfoLoading { get; set; }
+    protected Error? InfoError { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -81,6 +87,30 @@ public class FineTuningPage : PageComponentBase
         }
 
         IsProcessing = false;
+    }
+
+    protected async Task LoadFineTuneDetails(string id)
+    {
+        IsInfoLoading = true;
+        InfoError = null;
+        FineTuneResponse = null;
+
+        FineTuneResponse = await OpenAIClient.RetrieveFineTune(id);
+        InfoError = FineTuneResponse?.Error;
+
+        IsInfoLoading = false;
+    }
+
+    protected async Task LoadFineTuneEvents(string id)
+    {
+        IsInfoLoading = true;
+        InfoError = null;
+        ListFineTuneEventsResponse = null;
+
+        ListFineTuneEventsResponse = await OpenAIClient.ListFineTuneEvents(id);
+        InfoError = ListFineTuneEventsResponse?.Error;
+        
+        IsInfoLoading = false;
     }
 
     protected void SetFineTuneModelToDelete(string fineTuneModelToDelete)

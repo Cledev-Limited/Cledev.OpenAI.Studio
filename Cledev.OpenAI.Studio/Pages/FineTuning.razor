@@ -53,7 +53,13 @@
                                 <td>@fineTune.Status</td>
                                 <td>@fineTune.CreatedAt.ToDateTime()</td>
                                 <td>@fineTune.UpdatedAt.ToDateTime(fineTune.CreatedAt)</td>
-                                <td class="text-center">
+                                <td class="text-nowrap">
+                                    <a id="OpenFineTuneDetailsModal" class="me-0" title="Fine-Tunes Details" href="#" @onclick:preventDefault="true" @onclick="() => LoadFineTuneDetails(fineTune.Id)" data-bs-toggle="modal" data-bs-target="#FineTuneDetailsModal">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </a>
+                                    <a id="OpenFineTuneEventsModal" class="me-1" title="Fine-Tunes Events" href="#" @onclick:preventDefault="true" @onclick="() => LoadFineTuneEvents(fineTune.Id)" data-bs-toggle="modal" data-bs-target="#FineTuneEventsModal">
+                                        <i class="fa-regular fa-calendar-check"></i>
+                                    </a>
                                     @if (fineTune.Status == "succeeded")
                                     {
                                         <a id="OpenDeleteFineTuneModal" title="Delete Fine-Tuned Model" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(fineTune.FineTunedModel!)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
@@ -270,6 +276,187 @@
                 {
                     <button id="CancelFineTuneJob" type="submit" class="btn btn-warning" @onclick="async () => await CancelFineTuneJob()">Cancel</button>
                 }
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="FineTuneDetailsModal" tabindex="-1" aria-labelledby="FineTuneDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FineTuneDetailsModalLabel">Fine-Tune Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (FineTuneResponse is not null && InfoError is null)
+                {
+                    <div class="card d-flex">
+                        <div class="card-header">
+                            Info
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <span class="fw-bold">Id</span>: @FineTuneResponse.Id
+                            </div>
+                            <div>
+                                <span class="fw-bold">Fine-Tune Model</span>: @FineTuneResponse.FineTunedModel
+                            </div>
+                            <div>
+                                <span class="fw-bold">Base Model</span>: @FineTuneResponse.Model
+                            </div>
+                            <div>
+                                <span class="fw-bold">Status</span>: @FineTuneResponse.Status
+                            </div>
+                            <div>
+                                <span class="fw-bold">Created</span>: @FineTuneResponse.CreatedAt.ToDateTime()
+                            </div>
+                            <div>
+                                <span class="fw-bold">Updated</span>: @FineTuneResponse.UpdatedAt?.ToDateTime()
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (FineTuneResponse.HyperParams is not null)
+                    {
+                        <div class="card d-flex mt-3">
+                            <div class="card-header">
+                                Hyper Params
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <span class="fw-bold">N Epochs</span>: @FineTuneResponse.HyperParams.NEpochs
+                                </div>
+                                <div>
+                                    <span class="fw-bold">Batch Size</span>: @FineTuneResponse.HyperParams.BatchSize
+                                </div>
+                                <div>
+                                    <span class="fw-bold">Learning Rate Multiplier</span>: @FineTuneResponse.HyperParams.LearningRateMultiplier
+                                </div>
+                                <div>
+                                    <span class="fw-bold">Prompt Loss Weight</span>: @FineTuneResponse.HyperParams.PromptLossWeight
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="card d-flex mt-3">
+                        <div class="card-header">
+                            Training Files
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">&nbsp;</th>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">File Name</th>
+                                    <th scope="col">Bytes</th>
+                                    <th scope="col">Created</th>
+                                    <th scope="col">Purpose</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @for (var index = 0; index < FineTuneResponse.TrainingFiles.Count; index++)
+                                {
+                                        var file = FineTuneResponse.TrainingFiles[index];
+                                    <tr>
+                                        <th scope="row" class="text-end">@(index + 1)</th>
+                                        <td>@file.Id</td>
+                                        <td>@file.FileName</td>
+                                        <td class="text-end">@file.Bytes</td>
+                                        <td>@file.CreatedAt.ToDateTime()</td>
+                                        <td>@file.Purpose</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    @if (FineTuneResponse.ValidationFiles.Any())
+                    {
+                        <div class="card d-flex mt-3">
+                            <div class="card-header">
+                                Validation Files
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" class="text-center">&nbsp;</th>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">File Name</th>
+                                        <th scope="col">Bytes</th>
+                                        <th scope="col">Created</th>
+                                        <th scope="col">Purpose</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @for (var index = 0; index < FineTuneResponse.ValidationFiles.Count; index++)
+                                    {
+                                            var file = FineTuneResponse.ValidationFiles[index];
+                                        <tr>
+                                            <th scope="row" class="text-end">@(index + 1)</th>
+                                            <td>@file.Id</td>
+                                            <td>@file.FileName</td>
+                                            <td class="text-end">@file.Bytes</td>
+                                            <td>@file.CreatedAt.ToDateTime()</td>
+                                            <td>@file.Purpose</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
+                <Error Model="InfoError"></Error>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="FineTuneEventsModal" tabindex="-1" aria-labelledby="FineTuneEventsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FineTuneEventsModalLabel">Fine-Tune Events</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (ListFineTuneEventsResponse is not null && InfoError is null)
+                {
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="text-center">&nbsp;</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">Message</th>
+                            <th scope="col">Created</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @for (var index = 0; index < ListFineTuneEventsResponse.Data.Count; index++)
+                        {
+                            var fineTuneEvent = ListFineTuneEventsResponse.Data[index];
+                            <tr>
+                                <th scope="row" class="text-end">@(index + 1)</th>
+                                <td>@fineTuneEvent.Level</td>
+                                <td>@fineTuneEvent.Message</td>
+                                <td>@fineTuneEvent.CreatedAt.ToDateTime()</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+                <Error Model="InfoError"></Error>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
