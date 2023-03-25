@@ -12,7 +12,7 @@ public class ModelsPage : PageComponentBase
 
     public List<ModelResponse> Models { get; set; } = new();
 
-    public string? FineTuneModelToDelete { get; set; }
+    public string? FineTunedModelToDelete { get; set; }
     public bool IsDeleting { get; set; }
     protected Error? DeleteError { get; set; }
 
@@ -55,22 +55,22 @@ public class ModelsPage : PageComponentBase
         SearchCompleted = true;
     }
 
-    protected void SetFineTuneModelToDelete(string fineTuneModelToDelete)
+    protected void SetFineTunedModelToDelete(string fineTuneModelToDelete)
     {
         DeleteError = null;
-        FineTuneModelToDelete = fineTuneModelToDelete;
+        FineTunedModelToDelete = fineTuneModelToDelete;
     }
 
-    protected async Task DeleteFineTuneModel()
+    protected async Task DeleteFineTunedModel()
     {
         DeleteError = null;
         IsDeleting = true;
 
-        var deleteFineTuneResponse = await OpenAIClient.DeleteFineTune(FineTuneModelToDelete!);
-        DeleteError = deleteFineTuneResponse?.Error;
+        var deleteFineTunedModelResponse = await OpenAIClient.DeleteFineTunedModel(FineTunedModelToDelete!);
+        DeleteError = deleteFineTunedModelResponse?.Error;
         if (DeleteError is null)
         {
-            await JsRuntime.InvokeVoidAsync("toggleModal", "DeleteFineTuneModal");
+            await JsRuntime.InvokeVoidAsync("toggleModal", "DeleteFineTunedModelModal");
             await LoadModels();
         }
 

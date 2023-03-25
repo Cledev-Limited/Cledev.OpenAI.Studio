@@ -11,8 +11,8 @@ public class CancelFineTuneTests : ComponentTestBase
     public void GivenFineTuneJobIsCancelled_WhenAPIReturnsAValidResponse_ThenDeleteModalIsClosed()
     {
         OpenAIClient
-            .Setup(x => x.DeleteFineTune("fine-tune-model-1", CancellationToken.None))
-            .ReturnsAsync(new DeleteFineTuneResponse { Id = "Id1" });
+            .Setup(x => x.CancelFineTune("fine-tune-model-1", CancellationToken.None))
+            .ReturnsAsync(new FineTuneResponse{ Id = "Id1" });
 
         OpenAIClient
             .Setup(x => x.ListFineTunes(CancellationToken.None))

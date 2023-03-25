@@ -30,7 +30,7 @@
 }
 else
 {
-    <button type="submit" class="btn btn-primary" @onclick="OnSubmitAsync">
+    <button id="ListModels" type="submit" class="btn btn-primary" @onclick="OnSubmitAsync">
         @if (string.IsNullOrEmpty(ModelId))
         {
             <literal>List Models</literal>
@@ -63,12 +63,12 @@ else
                     var model = Models[index];
                     <tr>
                         <th scope="row" class="text-end">@(index + 1)</th>
-                        <td>@model.Id</td>
+                        <td id="model-@model.Id">@model.Id</td>
                         <td>@model.OwnedBy</td>
                         <td>
                             @if (model.OwnedBy == StudioSettings.Value.OrganizationName)
                             {
-                                <a id="OpenDeleteFineTuneModal" title="Delete Fine-Tuned Model" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTuneModelToDelete(model.Id)" data-bs-toggle="modal" data-bs-target="#DeleteFineTuneModal">
+                                <a id="OpenDeleteFineTunedModelModal" title="Delete Fine-Tuned Model" href="#" @onclick:preventDefault="true" @onclick="() => SetFineTunedModelToDelete(model.Id)" data-bs-toggle="modal" data-bs-target="#DeleteFineTunedModelModal">
                                     <i class="fa-regular fa-trash-can"></i>
                                 </a>
                             }
@@ -83,15 +83,15 @@ else
 
 <Error Model="Error"></Error>
 
-<div class="modal fade" id="DeleteFineTuneModal" tabindex="-1" aria-labelledby="DeleteFineTuneModalLabel" aria-hidden="true">
+<div class="modal fade" id="DeleteFineTunedModelModal" tabindex="-1" aria-labelledby="DeleteFineTunedModelModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="DeleteFineTuneModalLabel">Delete Fine-Tune</h5>
+                <h5 class="modal-title" id="DeleteFineTunedModelModalLabel">Delete Fine-Tune</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete <span class="fw-bold">@FineTuneModelToDelete</span>?
+                Are you sure you want to delete <span class="fw-bold">@FineTunedModelToDelete</span>?
                 <Error Model="DeleteError"></Error>
             </div>
             <div class="modal-footer">
@@ -104,7 +104,7 @@ else
                 }
                 else
                 {
-                    <button id="DeleteFineTune" type="submit" class="btn btn-danger" @onclick="async () => await DeleteFineTuneModel()">Delete</button>
+                    <button id="DeleteFineTunedModel" type="submit" class="btn btn-danger" @onclick="async () => await DeleteFineTunedModel()">Delete</button>
                 }
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
