@@ -308,16 +308,48 @@
                             </div>
                             <div class="card-body">
                                 <div>
-                                    <span class="fw-bold">N Epochs</span>: @FineTuneResponse.HyperParams.NEpochs
+                                    <span class="fw-bold">N Epochs</span>:
+                                    @if (FineTuneResponse.HyperParams.NEpochs is not null)
+                                    {
+                                        @FineTuneResponse.HyperParams.NEpochs
+                                    }
+                                    else
+                                    {
+                                        <literal>&lt;null&gt;</literal>
+                                    }
                                 </div>
                                 <div>
-                                    <span class="fw-bold">Batch Size</span>: @FineTuneResponse.HyperParams.BatchSize
+                                    <span class="fw-bold">Batch Size</span>:
+                                    @if (FineTuneResponse.HyperParams.BatchSize is not null)
+                                    {
+                                        @FineTuneResponse.HyperParams.BatchSize
+                                    }
+                                    else
+                                    {
+                                        <literal>&lt;null&gt;</literal>
+                                    }
                                 </div>
                                 <div>
-                                    <span class="fw-bold">Learning Rate Multiplier</span>: @FineTuneResponse.HyperParams.LearningRateMultiplier
+                                    <span class="fw-bold">Learning Rate Multiplier</span>:
+                                    @if (FineTuneResponse.HyperParams.LearningRateMultiplier is not null)
+                                    {
+                                        @FineTuneResponse.HyperParams.LearningRateMultiplier
+                                    }
+                                    else
+                                    {
+                                        <literal>&lt;null&gt;</literal>
+                                    }
                                 </div>
                                 <div>
-                                    <span class="fw-bold">Prompt Loss Weight</span>: @FineTuneResponse.HyperParams.PromptLossWeight
+                                    <span class="fw-bold">Prompt Loss Weight</span>:
+                                    @if (FineTuneResponse.HyperParams.PromptLossWeight is not null)
+                                    {
+                                        @FineTuneResponse.HyperParams.PromptLossWeight
+                                    }
+                                    else
+                                    {
+                                        <literal>&lt;null&gt;</literal>
+                                    }
                                 </div>
                             </div>
                         </div>
