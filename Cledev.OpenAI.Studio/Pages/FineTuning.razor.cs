@@ -1,5 +1,6 @@
 ﻿using Cledev.OpenAI.Studio.Extensions;
 using Cledev.OpenAI.V1.Contracts;
+using Cledev.OpenAI.V1.Contracts.Files;
 using Cledev.OpenAI.V1.Contracts.FineTunes;
 using Cledev.OpenAI.V1.Helpers;
 using Microsoft.JSInterop;
@@ -86,7 +87,12 @@ public class FineTuningPage : PageComponentBase
         if (response is not null)
         {
             FineTunes.AddRange(response.Data.OrderBy(fineTuneResponse => fineTuneResponse.CreatedAt));
-            FineTuningModels.AddRange(response.Data.ToActiveFineTuneModels());
+
+            var listModelsResponse = await OpenAIClient.ListModels();
+            if (listModelsResponse is not null && listModelsResponse.Error is null)
+            {
+                FineTuningModels.AddRange(listModelsResponse.Data.Where(model => model.OwnedBy == StudioSettings.Value.OrganizationName).Select(model => model.Id).ToList());
+            }
         }
 
         IsProcessing = false;
@@ -195,3 +201,15 @@ public class FineTuningPage : PageComponentBase
 }
 
 public record FineTuneFile(string FileId, string FileDisplayName);
+
+public static class FineTuningExtensionsExtensions
+{
+    public static List<FineTuneFile> ToFineTuneFiles(this IEnumerable<FileResponse> data)
+    {
+        return data
+            .Where(fileResponse => fileResponse.Purpose == "fine-tune")
+            .OrderBy(fileResponse => fileResponse.CreatedAt)
+            .Select(fileResponse => new FineTuneFile(fileResponse.Id, $"{fileResponse.FileName} ({fileResponse.Id})"))
+            .ToList();
+    }
+}

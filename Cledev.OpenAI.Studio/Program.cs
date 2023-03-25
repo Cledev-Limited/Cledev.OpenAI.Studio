@@ -1,4 +1,5 @@
 using Cledev.OpenAI.Extensions;
+using Cledev.OpenAI.Studio.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddOpenAIClient();
+builder.Services.AddStudioSettings();
 
 var app = builder.Build();
 

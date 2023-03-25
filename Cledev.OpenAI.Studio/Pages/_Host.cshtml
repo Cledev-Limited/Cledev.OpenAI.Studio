@@ -43,7 +43,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js" integrity="sha512-i9cEfJwUwViEPFKdC1enz4ZRGBj8YQo6QByFTF92YXHi7waCqyexvRD75S5NVTsSiTv7rKWqG9Y5eFxmRsOn0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </environment>
-    <script>
+<script>
         function addPopovers() {
             var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
             var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
@@ -65,6 +65,15 @@
 
         function toggleModal(modalId) {
             $('#' + modalId).modal('toggle');
+        }
+        
+        function copyTextToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function () {
+                alert("Copied to clipboard!");
+            })
+            .catch(function (error) {
+                alert(error);
+            });
         }
     </script>
 </body>
