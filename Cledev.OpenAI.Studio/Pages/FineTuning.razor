@@ -98,7 +98,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row mb-3">
-                        <FormLabel InputId="Model" InColumn="true" Tooltip="">Base Model</FormLabel>
+                        <FormLabel InputId="Model" InColumn="true" Tooltip="@Tooltips.Model">Base Model</FormLabel>
                         <div class="col-sm">
                             <InputSelect id="Model" @bind-Value="CreateFineTuneRequest.Model" class="form-select">
                                 @foreach (var item in FineTuningModels)
@@ -109,7 +109,93 @@
                         </div>
                     </div>
 
-                    OTHER INPUTS HERE
+                    <div class="row mb-3">
+                        <FormLabel InputId="TrainingFile" InColumn="true" Tooltip="@Tooltips.TrainingFile">Training File</FormLabel>
+                        <div class="col-sm">
+                            <InputSelect id="TrainingFile" @bind-Value="CreateFineTuneRequest.TrainingFile" class="form-select">
+                                @foreach (var item in ExistingFiles)
+                                {
+                                    <option value="@item.FileId">@item.FileDisplayName</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <FormLabel InputId="ValidationFile" InColumn="true" Tooltip="@Tooltips.ValidationFile">Validation File</FormLabel>
+                        <div class="col-sm">
+                            <InputSelect id="ValidationFile" @bind-Value="CreateFineTuneRequest.ValidationFile" class="form-select">
+                                <option value="">&lt;None&gt;</option>
+                                @foreach (var item in ExistingFiles)
+                                {
+                                    <option value="@item.FileId">@item.FileDisplayName</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <FormLabel InputId="Suffix" InColumn="true" Tooltip="@Tooltips.Suffix">Suffix</FormLabel>
+                        <div class="col-sm">
+                            <InputText id="Suffix" @bind-Value="CreateFineTuneRequest.Suffix" class="form-control" />
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <FormLabel InputId="NEpochs" InColumn="true" Tooltip="@Tooltips.NEpochs">NEpochs</FormLabel>
+                        <div class="col-sm">
+                            <InputNumber id="NEpochs" @bind-Value="CreateFineTuneRequest.NEpochs" class="form-control" />
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <FormLabel InputId="BatchSize" InColumn="true" Tooltip="@Tooltips.BatchSize">Batch Size</FormLabel>
+                        <div class="col-sm">
+                            <InputNumber id="BatchSize" @bind-Value="CreateFineTuneRequest.BatchSize" class="form-control" />
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <FormLabel InputId="LearningRateMultiplier" InColumn="true" Tooltip="@Tooltips.LearningRateMultiplier">Learning Rate Multiplier</FormLabel>
+                        <div class="col-sm">
+                            <InputNumber id="LearningRateMultiplier" @bind-Value="CreateFineTuneRequest.LearningRateMultiplier" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <FormLabel InputId="PromptLossWeight" InColumn="true" Tooltip="@Tooltips.PromptLossWeight">Prompt Loss Weight</FormLabel>
+                        <div class="col-sm">
+                            <InputNumber id="PromptLossWeight" @bind-Value="CreateFineTuneRequest.PromptLossWeight" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <FormLabel InputId="ComputeClassificationMetrics" InColumn="true" Tooltip="@Tooltips.ComputeClassificationMetrics">Compute Classification Metrics</FormLabel>
+                        <div class="col-sm">
+                            <InputCheckbox id="ComputeClassificationMetrics" @bind-Value="CreateFineTuneRequest.ComputeClassificationMetrics" class="form-check-input" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <FormLabel InputId="ClassificationNClasses" InColumn="true" Tooltip="@Tooltips.ClassificationNClasses">Classification N Classes</FormLabel>
+                        <div class="col-sm">
+                            <InputNumber id="ClassificationNClasses" @bind-Value="CreateFineTuneRequest.ClassificationNClasses" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <FormLabel InputId="ClassificationPositiveClass" InColumn="true" Tooltip="@Tooltips.ClassificationPositiveClass">Classification Positive Class</FormLabel>
+                        <div class="col-sm">
+                            <InputText id="ClassificationPositiveClass" @bind-Value="CreateFineTuneRequest.ClassificationPositiveClass" class="form-control" />
+                        </div>
+                    </div>
+
+                    @*<div class="row mb-3">
+                        <FormLabel InputId="ClassificationBetas" InColumn="true" Tooltip="@Tooltips.ClassificationBetas">ClassificationBetas</FormLabel>
+                        <div class="col-sm">
+                            <InputText id="ClassificationBetas" @bind-Value="CreateFineTuneRequest.ClassificationBetas" class="form-control" />
+                        </div>
+                    </div>*@
 
                     <Error Model="CreateError"></Error>
                 </div>

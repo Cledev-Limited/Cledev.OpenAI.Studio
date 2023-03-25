@@ -47,6 +47,18 @@
     </nav>
 </header>
 
+@*@if (PageInfo is not null)
+{
+    <section style="background-color: #f7f7f7;">
+        <div class="container">
+            <h3 class="pt-2 pb-4 mb-4 text-nowrap border-bottom">
+                <i class="@PageInfo.HeaderIcon"></i>
+                @PageInfo.HeaderText
+            </h3>
+        </div>
+    </section>
+}*@
+
 <main role="main" class="pb-4">
     <div class="container" style="min-height: 400px;">
         @Body
