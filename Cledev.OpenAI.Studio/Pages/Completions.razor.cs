@@ -1,4 +1,5 @@
-﻿using Cledev.OpenAI.V1.Contracts.Completions;
+﻿using Cledev.OpenAI.Studio.Extensions;
+using Cledev.OpenAI.V1.Contracts.Completions;
 using Cledev.OpenAI.V1.Helpers;
 
 namespace Cledev.OpenAI.Studio.Pages;
@@ -8,9 +9,9 @@ public class CompletionsPage : PageComponentBase
     public CreateCompletionRequest Request { get; set; } = null!;
     protected CreateCompletionResponse? Response { get; set; }
 
-    public IList<string> CompletionModels { get; set; } = new List<string>();
+    public List<string> CompletionModels { get; set; } = new List<string>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Request = new CreateCompletionRequest
         {
@@ -21,6 +22,12 @@ public class CompletionsPage : PageComponentBase
         };
 
         CompletionModels = Enum.GetValues(typeof(CompletionsModel)).Cast<CompletionsModel>().Select(x => x.ToStringModel()).ToList();
+
+        var listFineTunesResponse = await OpenAIClient.ListFineTunes();
+        if (listFineTunesResponse is not null && listFineTunesResponse.Error is null)
+        {
+            CompletionModels.AddRange(listFineTunesResponse.Data.ToActiveFineTuneModels());
+        }
     }
 
     protected async Task OnSubmitAsync()
