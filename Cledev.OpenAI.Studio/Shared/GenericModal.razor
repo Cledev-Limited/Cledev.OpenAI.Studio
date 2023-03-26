@@ -1,10 +1,10 @@
 ﻿@inherits ComponentBase
 
-<div class="modal fade" id="(@Id)Modal" tabindex="-1" aria-labelledby="(@Id)ModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="@ModalId" tabindex="-1" aria-labelledby="@ModalLabelId" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="(@Id)ModalLabel">@Title</h5>
+                <h5 class="modal-title" id="@ModalLabelId">@Title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -26,4 +26,7 @@
     
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
+    private string ModalId => $"{Id}Modal";
+    private string ModalLabelId => $"({Id})ModalLabel";
 }
