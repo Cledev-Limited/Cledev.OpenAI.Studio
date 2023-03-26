@@ -360,32 +360,7 @@
                             Training Files
                         </div>
                         <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col" class="text-center">&nbsp;</th>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">File Name</th>
-                                    <th scope="col">Bytes</th>
-                                    <th scope="col">Created</th>
-                                    <th scope="col">Purpose</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @for (var index = 0; index < FineTuneResponse.TrainingFiles.Count; index++)
-                                {
-                                        var file = FineTuneResponse.TrainingFiles[index];
-                                    <tr>
-                                        <th scope="row" class="text-end">@(index + 1)</th>
-                                        <td>@file.Id</td>
-                                        <td>@file.FileName</td>
-                                        <td class="text-end">@file.Bytes</td>
-                                        <td>@file.CreatedAt.ToDateTime()</td>
-                                        <td>@file.Purpose</td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
+                            <FilesTable Files="FineTuneResponse.TrainingFiles"></FilesTable>
                         </div>
                     </div>
 
@@ -396,32 +371,7 @@
                                 Validation Files
                             </div>
                             <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col" class="text-center">&nbsp;</th>
-                                        <th scope="col">Id</th>
-                                        <th scope="col">File Name</th>
-                                        <th scope="col">Bytes</th>
-                                        <th scope="col">Created</th>
-                                        <th scope="col">Purpose</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @for (var index = 0; index < FineTuneResponse.ValidationFiles.Count; index++)
-                                    {
-                                            var file = FineTuneResponse.ValidationFiles[index];
-                                        <tr>
-                                            <th scope="row" class="text-end">@(index + 1)</th>
-                                            <td>@file.Id</td>
-                                            <td>@file.FileName</td>
-                                            <td class="text-end">@file.Bytes</td>
-                                            <td>@file.CreatedAt.ToDateTime()</td>
-                                            <td>@file.Purpose</td>
-                                        </tr>
-                                    }
-                                    </tbody>
-                                </table>
+                                <FilesTable Files="FineTuneResponse.ValidationFiles"></FilesTable>
                             </div>
                         </div>
                     }

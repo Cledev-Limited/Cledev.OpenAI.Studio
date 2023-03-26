@@ -1,0 +1,36 @@
+﻿@using Cledev.OpenAI.V1.Contracts.FineTunes
+
+@if (Files is not null && Files.Any())
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col" class="text-center">&nbsp;</th>
+            <th scope="col">Id</th>
+            <th scope="col">File Name</th>
+            <th scope="col">Bytes</th>
+            <th scope="col">Created</th>
+            <th scope="col">Purpose</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (var index = 0; index < Files.Count; index++)
+        {
+            var file = Files[index];
+            <tr>
+                <th scope="row" class="text-end">@(index + 1)</th>
+                <td>@file.Id</td>
+                <td>@file.FileName</td>
+                <td class="text-end">@file.Bytes</td>
+                <td>@file.CreatedAt.ToDateTime()</td>
+                <td>@file.Purpose</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public List<FineTuneResponseFile>? Files { get; set; }
+}
