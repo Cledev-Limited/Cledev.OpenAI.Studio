@@ -7,7 +7,7 @@ Blazor Server playground for OpenAI using [Cledev.OpenAI](https://github.com/luc
 ## Screenshots
 
 ### Index
-<img src="https://user-images.githubusercontent.com/8679253/224510037-9cd0eeb8-60cf-4253-bf34-1d8dceadb870.png" width="600" />
+<img src="https://user-images.githubusercontent.com/8679253/227765550-ad131e95-5cec-48f4-99ba-fbc238720336.png" width="600" />
 
 ### ChapGPT
 <img src="https://user-images.githubusercontent.com/8679253/225894469-f5153c19-de52-4cae-93ee-66b965bb19bd.png" width="600" />
