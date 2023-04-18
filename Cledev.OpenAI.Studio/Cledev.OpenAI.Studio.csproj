@@ -11,7 +11,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AI.Dev.OpenAI.GPT" Version="1.0.2" />
 		<PackageReference Include="Markdig.Signed" Version="0.31.0" />
 	</ItemGroup>
 
