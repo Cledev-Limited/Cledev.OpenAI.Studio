@@ -62,7 +62,7 @@ public class FilesPage : PageComponentBase
         Error = response?.Error;
         if (response is not null)
         {
-            Files.AddRange(response.Data.OrderBy(fileResponse => fileResponse.CreatedAt));
+            Files.AddRange(response.Data.OrderByDescending(fileResponse => fileResponse.CreatedAt));
         }
 
         IsProcessing = false;

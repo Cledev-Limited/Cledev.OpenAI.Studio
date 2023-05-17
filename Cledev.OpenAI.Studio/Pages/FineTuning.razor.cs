@@ -34,7 +34,7 @@ public class FineTuningPage : PageComponentBase
 
         CreateFineTuneRequest = new CreateFineTuneRequest
         {
-            Model = FineTuningModel.Curie.ToStringModel(),
+            Model = FineTuningModel.Ada.ToStringModel(),
             TrainingFile = string.Empty,
             NEpochs = 4,
             PromptLossWeight = 0.01f
@@ -80,7 +80,7 @@ public class FineTuningPage : PageComponentBase
 
         if (response is not null)
         {
-            FineTunes.AddRange(response.Data.OrderBy(fineTuneResponse => fineTuneResponse.CreatedAt));
+            FineTunes.AddRange(response.Data.OrderByDescending(fineTuneResponse => fineTuneResponse.CreatedAt));
 
             var listModelsResponse = await OpenAIClient.ListModels();
             if (listModelsResponse is not null && listModelsResponse.Error is null)

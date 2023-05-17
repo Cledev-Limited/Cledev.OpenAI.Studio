@@ -33,7 +33,6 @@
                         <tr>
                             <th scope="col" class="text-center">&nbsp;</th>
                             <th scope="col">Id</th>
-                            <th scope="col">Base Model</th>
                             <th scope="col">Fine-tuned Model</th>
                             <th scope="col">Status</th>
                             <th scope="col">Created</th>
@@ -48,7 +47,6 @@
                             <tr>
                                 <th scope="row" class="text-end">@(index + 1)</th>
                                 <td id="fineTune@(index + 1)Id">@fineTune.Id</td>
-                                <td>@fineTune.Model</td>
                                 <td>@fineTune.FineTunedModel</td>
                                 <td>@fineTune.Status</td>
                                 <td>@fineTune.CreatedAt.ToDateTime()</td>

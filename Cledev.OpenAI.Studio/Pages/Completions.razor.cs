@@ -17,7 +17,9 @@ public class CompletionsPage : PageComponentBase
             Model = CompletionsModel.TextDavinciV3.ToStringModel(),
             N = 1,
             MaxTokens = 100,
-            Stream = true
+            Stream = true,
+            Temperature = 0,
+            Stop = "END"
         };
 
         CompletionModels = Enum.GetValues(typeof(CompletionsModel)).Cast<CompletionsModel>().Select(x => x.ToStringModel()).ToList();
